@@ -5,7 +5,9 @@ We will post some useful example code and notes.  It is not required for you to 
 ### Code
 
 -building a 2D structure: [code]()
+
 -building a 3D structure: [code]()
+
 -building a bicycle: [code]()
 
 ### Notes
