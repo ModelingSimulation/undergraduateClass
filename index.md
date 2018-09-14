@@ -4,11 +4,11 @@ Here, we will post some useful example code and notes.  It is not required for y
 
 ### Code
 
--building a 2D structure: [code](simple_structure_2d.m)
+-building some structures: [simple_structure_2d.m](simple_structure_2d.m), [simple_structure_3d.m](simple_structure_3d.m)
 
--building a 3D structure: [code](simple_structure_3d.m)
+-building a bicycle: [bicycle.m](bicycle.m)
 
--building a bicycle: [code](bicycle.m)
+-2d forward Euler example with a chain of springs: [spring_string.m](spring_string.m)
 
 ### Notes
 
