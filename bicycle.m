@@ -80,14 +80,12 @@ plot3(x',y',z','linewidth',4)
 v = VideoWriter('test');
 open(v);
 num_angles = 500;
-frames(num_angles) = struct('cdata',[],'colormap',[]);
 for tt = 1:num_angles
     angle = tt*360/num_angles;
     plot3(x',y',z','linewidth',4)
     axis equal
     view(angle, 30);
     frame = getframe(gcf);
-    frames(tt) = getframe;
     writeVideo(v,frame);
 end
 close(v);
