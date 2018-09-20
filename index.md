@@ -12,4 +12,4 @@ Here, we will post some useful example code and notes.  It is not required for y
 
 ### Notes
 
-Notes go here.
+Here is a link to some [notes](notes_MATH395.pdf) that will be regularly updated.
