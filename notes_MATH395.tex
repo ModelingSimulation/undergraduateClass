@@ -1,0 +1,78 @@
+\documentclass[10pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{url}
+\usepackage{amsthm}
+\usepackage{color}
+%\usepackage{stmaryrd}
+\usepackage{graphicx}
+
+\newtheorem{mydef}{Definition}
+\newtheorem{mylem}{Lemma}
+\newtheorem{myass}{Assumption}
+\newtheorem{myprop}{Proposition}
+\newtheorem{mycor}{Corollary}
+\newtheorem{myrem}{Remark}
+\newtheorem{mythm}{Theorem}
+
+\newcommand{\bs}[1]{{\boldsymbol #1}}
+\newcommand{\hot}[1]{\textcolor{red}{#1}} 
+\newcommand{\bsxi}{\bs \xi}
+
+\usepackage[margin=2.5cm]{geometry}
+\begin{document}
+\title{Mathematical modeling in science, engineering, and economics}
+\maketitle
+
+
+\section{Network of springs and dashpots}
+
+We consider a network of springs and dashpots which connect some masses.  Define the following physical parameters:
+\begin{align*}
+M_k &= \text{mass at node }k \\
+S_{jk} &= \text{spring constant between node $j$ and node $k$} \\
+D_{jk} &= \text{dashpot constant between node $j$ and node $k$} \\
+R^0_{jk} &= \text{resting length of spring between node $j$ and node $k$} 
+\end{align*}
+For a mass $k$, let $N(k)$ be the index set of masses which are connected to mass $k$.  Let ${\bf X}_k$ and ${\bf U}_k$ be the position and velocity vectors of mass $k$ respectively.  The equations of motion for this network of masses connected by springs and dashpots are
+\begin{align}
+\label{eq:mot1}
+M_k \frac{d {\bf U}_k}{dt} &= \sum_{j \in N(k)} T_{jk} \frac{{\bf X}_j - {\bf X}_k}{\| {\bf X}_j - {\bf X}_k \|} \\
+\label{eq:mot2}
+\frac{d {\bf X}_k}{dt} &= {\bf U}_k \\
+\label{eq:mot3}
+T_{jk} &= S_{jk} \left( \|{\bf X}_j - {\bf X}_k\| - R^0_{jk} \right) + D_{jk} \frac{d}{dt} \|{\bf X}_j - {\bf X}_k \|
+\end{align}
+Equation \eqref{eq:mot1} is a statement of force balance.  Notice the total force on mass $k$ is the sum of forces which each point in the direction from mass $j$ to $k$, given by the unit vector $\frac{{\bf X}_j - {\bf X}_k}{\| {\bf X}_j - {\bf X}_k \|}$, with magnitude $T_{jk}$.  Equation \eqref{eq:mot2} states simply the definition of velocity for mass $k$.  The last equation is the force magnitude, broken into the sum of a spring force magnitude depending on its stretching or compression from its rest length $R_{jk}^0$, and a dashpot force magnitude proportional to the time rate of change of this stretching or compression.
+
+We can simplify the dashpot force magnitude in \eqref{eq:mot3} by considering the time derivative of the square of the displacement and using the chain rule:
+\begin{align*}
+\frac{d}{dt} \Big(\|{\bf X}_j - {\bf X}_k\|^2\Big) = 2 \|{\bf X}_j - {\bf X}_k\| \, \Big( \frac{d}{dt} \|{\bf X}_j - {\bf X}_k \| \Big).
+\end{align*}  
+By the product rule, the left hand side becomes:
+\begin{align*}
+\frac{d}{dt} \Big(\|{\bf X}_j - {\bf X}_k\|^2\Big) = 2({\bf X}_j - {\bf X}_k) \cdot ({\bf U}_j - {\bf U}_k)
+\end{align*}
+Combining these two equations gives a formula for the time derivative of the displacement:
+\begin{align*}
+\frac{d}{dt} \|{\bf X}_j - {\bf X}_k \| = \frac{{\bf X}_j - {\bf X}_k}{\|{\bf X}_j - {\bf X}_k\|} \cdot ({\bf U}_j - {\bf U}_k)
+\end{align*}
+We can then equivalently express the equations of motions as: 
+\begin{align}
+\label{eq:mot1}
+M_k \frac{d {\bf U}_k}{dt} &= \sum_{j \in N(k)} T_{jk} \frac{{\bf X}_j - {\bf X}_k}{\| {\bf X}_j - {\bf X}_k \|} \\
+\label{eq:mot2}
+\frac{d {\bf X}_k}{dt} &= {\bf U}_k \\
+\label{eq:mot3}
+T_{jk} &= S_{jk} \left( \|{\bf X}_j - {\bf X}_k\| - R^0_{jk} \right) + D_{jk} \frac{{\bf X}_j - {\bf X}_k}{\|{\bf X}_j - {\bf X}_k\|} \cdot ({\bf U}_j - {\bf U}_k)
+\end{align}
+Notice that the force magnitude for the dashpot involves the component of the velocity in the direction of spring, which seems to make sense!
+
+The next question we need to answer is how to approximate these equations on a computer.  We are modeling a system which involves space and time, but since the masses are already discrete spatial entities, we just need to worry about approximating the temporal dynamics numerically.  To do this, pick some small, discrete timestep $\Delta t > 0$.  For the {\em forward Euler} method, we use an approximation to the time derivative of the form:
+\begin{align*}
+\frac{d {\bf U}}{dt}\Big|_{t + \Delta t} \approx \frac{{\bf U}(t+\Delta t ) - {\bf U}(t)}{\Delta t},
+\end{align*}
+and evaluate the right hand side of the equations of motion at time $t$.
+
+\end{document}
