@@ -1,9 +1,10 @@
-close all; clear all; clc;
+clear all; clc;
 % building a bouncing ball
 NDIM = 2;
 
 % number of nodes around the circumference of the ball
-n = 30; 
+%n = 30;
+n = 10; 
 
 % initialize arrays
 num_nodes = n+1;
@@ -18,13 +19,13 @@ RB = 0.8; % radius of ball
 center = [1, 10.5]; % initial location for ball center
 M = 5e-7*ones(num_nodes,1); % mass of each node 
 S = 10*ones(num_links,1); % spring constants
-D = 0.00001*ones(num_links,1); % dashpot constants
+D = 0.0*0.001*ones(num_links,1); % dashpot constants
 G = 50000; % magnitude of the gravitational force
 Sg = 500000; % strength of the force exerted by the ground
 
 % set numerical parameters
 dt = 1e-4;
-end_time = 1e-1;
+end_time = 1e0;
 timevec = 0:dt:end_time;
 
 % set positions of nodes around the circumference of the ball
@@ -61,10 +62,11 @@ F_gravity(:,1) = 0;
 F_gravity(:,2) = -G; 
 
 % here is the timestep loop
-for t = timevec
+centroid_position = zeros(length(timevec), NDIM);
+for t = 1:length(timevec)
 
     % this just displays the current simulation time in the matlab window
-    disp(t);	
+    disp(timevec(t));	
 
     % compute relevant quantities for equations of motion
     DX = X(jj,:) - X(kk,:);
@@ -85,25 +87,32 @@ for t = timevec
     U = U + (dt*F./[M M]) + dt*F_gravity + dt*F_ground(X,Sg);
     X = X + dt*U;
 
+    % store the position of centroid
+    centroid_position(t,:) = X(n+1,:);
+
     % plot the current position of the ball
     figure(2);
     x = [X(jj,1) X(kk,1)];
     y = [X(jj,2) X(kk,2)];
     plot(x',y','linewidth',4)
     xlim([0 2])
-    ylim([-5 15])
-    axis equal
-    pause(0.005)
+    ylim([-3 12])
+     axis equal
+    pause(0.001)
+
+    % stop simulation if it blows up.
+    if(abs(X)> 1e16)
+      break
+    end
 
 end
+
+figure(3); hold on
+plot(timevec, centroid_position,'linewidth',2)
 
 % function which defines the force on the ground, existing on the plane X_2 = 0
 function Fg = F_ground(X,Sg)
     Fg = zeros(size(X));
-    for mm = 1:length(X(:,1))
-       if(X(mm,2) < 0)
-          Fg(mm,2) = -Sg*X(mm,2);
-       end
-    end
+    Fg(:,2) = (X(:,2) < 0).*(-Sg*X(:,2));
 end
 
