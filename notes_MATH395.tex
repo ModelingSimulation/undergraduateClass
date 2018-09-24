@@ -139,6 +139,17 @@ Now, use \eqref{eq:te1} to simplify the first term of \eqref{eq:te2}, where we d
 \text{minimize }&\left(\frac{H({\bf X}^0)}{\|  \nabla H({\bf X}^0) \|}\right)^2 +  \sum_{i=2}^3 \, |({\bf X} - {\bf X}^0) \cdot {\bf V}_i|^2 \\
 \text{such that }&H({\bf X}) = 0.
 \end{align*} 
-Now, try to argue geometrically that we can pick ${\bf X}$ so that $H({\bf X}) = 0$ and $({\bf X} - {\bf X}^0) \cdot {\bf V}_i = 0$ for $i = 2, 3$.  In fact, we can pick ${\bf X}$ so that ${\bf X} - {\bf X}^0$ is parallel to ${\bf V}_1$. 
+Now, try to argue geometrically that we can pick ${\bf X} = {\bf X}^\text{opt}$ so that $H({\bf X}^\text{opt}) = 0$ and $({\bf X}^\text{opt} - {\bf X}^0) \cdot {\bf V}_i = 0$ for $i = 2, 3$.  In fact, we can pick ${\bf X}^\text{opt}$ so that ${\bf X}^\text{opt} - {\bf X}^0$ is parallel to ${\bf V}_1$.  This would be the solution to our new optimization problem, with the minimum distance given by:
+\begin{align*}
+\| {\bf X}^\text{opt} - {\bf X}^0 \| = \frac{-H({\bf X}^0)}{\|  \nabla H({\bf X}^0) \|}.
+\end{align*} 
+In summary, we use $-H({\bf X}^0) /\|  \nabla H({\bf X}^0)\|$ to approximate the distance from ${\bf X}^0$ to the ground.  The force from the ground will be proportional to this with some constant $S_\text{ground}$, in the direction of the normal vector to the surface $H({\bf X}) = H({\bf X}^0)$ evaluated at ${\bf X}^0$, which is precisely ${\bf V}_1$.  Putting all this together, the force from the ground is
+\begin{align*}
+{\bf F}_\text{ground}({\bf X}) = 
+\begin{cases}
+0 & \text{if }H({\bf X}) \geq 0 \\
+-S_\text{ground} \frac{H({\bf X})}{\|\nabla H({\bf X})\|} \frac{\nabla H({\bf X})}{\|\nabla H({\bf X})\|} & \text{if }H({\bf X}) < 0
+\end{cases}
+\end{align*}
 
 \end{document}
