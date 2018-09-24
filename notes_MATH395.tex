@@ -105,9 +105,10 @@ H(X_1,X_2,X_3) = H({\bf X}) = 0.
 To model some sort of force that the ground exerts on each mass, we need to know when we are above and below it.  For a given mass at location ${\bf X}$ in $\mathbb{R}^2$ or $\mathbb{R}^3$, we say it is {\em above the ground} if $H({\bf X}) > 0$ and {\em below the ground} if $H({\bf X}) < 0$.  The force that the ground exerts on this mass will only be active when the mass is below the ground.
 
 As a modeling choice, we make the magnitude of this force proportional to the distance from the mass to the ground.  Set the mass' location below the ground to be ${\bf X}^0$, and take ${\bf X}$ to be some point on the ground, i.e. $H({\bf X}) = 0$.  Let's take a Taylor expansion:
-\begin{align*}
-H({\bf X}) - H({\bf X}^0) = \nabla H({\bf X}^0) \cdot ({\bf X} - {\bf X}^0) + \text{higher order terms}. 
-\end{align*}  
+\begin{align}
+\label{eq:te1}
+H({\bf X}) - H({\bf X}^0) = \nabla H({\bf X}^0) \cdot ({\bf X} - {\bf X}^0) + O(\|{\bf X} - {\bf X}^0\|^2) 
+\end{align}  
 
 A formula to find the distance from a mass at ${\bf X}^0$ to the ground would be the smallest distance $\|{\bf X} - {\bf X}^0\|$ such that $H({\bf X}) = 0$.  This can be stated as an optimization problem:
 \begin{align*}
@@ -119,26 +120,25 @@ We can equivalently minimize the squared distance $\|{\bf X} - {\bf X}^0\|^2$, w
 \text{minimize } &\|{\bf X} - {\bf X}^0\|^2 \\
 \text{such that } &H({\bf X}) = 0.
 \end{align*}
-Now, we make the assumption that the distance between ${\bf X} - {\bf X}^0$ is small; considering the Taylor expansion above, the higher order terms are very small, and we substitute in a formula for $H({\bf X})$ which neglects those terms: 
+
+To solve this optimization problem, it is useful to express the vector ${\bf X} - {\bf X}^0$ in a new basis containing ${\bf V}_1 = \nabla H({\bf X}^0) / \|  \nabla H({\bf X}^0) \|$.  Let's assume we are in $\mathbb{R}^3$ and we pick ${\bf V}_2$ and ${\bf V}_3$ so that $\{ {\bf V}_1,  {\bf V}_2,  {\bf V}_3 \}$ forms an orthonormal basis.  Then we can write:
 \begin{align*}
-\text{minimize } &\|{\bf X} - {\bf X}^0\|^2 \\
-\text{such that } &-H({\bf X}^0) = \nabla H({\bf X}^0) \cdot ({\bf X} - {\bf X}^0).
-\end{align*}
-To solve this optimization problem, it is useful to express the vector ${\bf X} - {\bf X}^0$ in a basis with one of the vectors given as ${\bf V}_1 = \nabla H({\bf X}^0) / \|  \nabla H({\bf X}^0) \|$.  Let's assume we are in $\mathbb{R}^3$ and we pick ${\bf V}_2$ and ${\bf V}_3$ so that $\{ {\bf V}_1,  {\bf V}_2,  {\bf V}_3 \}$ forms an orthonormal basis.  Then we can write:
-\begin{align*}
-{\bf X} - {\bf X}^0 = \sum_{i=1}^3 \, ({\bf X} - {\bf X}^0) \cdot {\bf V}_i \, {\bf V}_i, 
+{\bf X} - {\bf X}^0 = \sum_{i=1}^3 \, \Big(({\bf X} - {\bf X}^0) \cdot {\bf V}_i \Big) \, {\bf V}_i, 
 \end{align*} 
 and
 \textbf{\begin{align*}
 \|{\bf X} - {\bf X}^0\|^2 = ({\bf X} - {\bf X}^0) \cdot ({\bf X} - {\bf X}^0) = \sum_{i=1}^3 \, |({\bf X} - {\bf X}^0) \cdot {\bf V}_i|^2. 
 \end{align*} }
 Using ${\bf V}_1 = \nabla H({\bf X}^0) / \|  \nabla H({\bf X}^0) \|$, we can express:
-\begin{align*}
+\begin{align}
+\label{eq:te2}
 \|{\bf X} - {\bf X}^0\|^2 = \left(\frac{({\bf X} - {\bf X}^0) \cdot \nabla H({\bf X}^0)}{\|  \nabla H({\bf X}^0) \|} \right)^2 +  \sum_{i=2}^3 \, |({\bf X} - {\bf X}^0) \cdot {\bf V}_i|^2. 
-\end{align*} 
-Using the constraint from the optimization problem, one has
+\end{align} 
+Now, use \eqref{eq:te1} to simplify the first term of \eqref{eq:te2}, where we drop the higher order terms in the expansion, and use the constraint that $H({\bf X}) = 0$.  Then the optimization problem can be ``approximated'' by this new one:
 \begin{align*}
-\|{\bf X} - {\bf X}^0\|^2 = \left(\frac{H({\bf X}^0)}{\|  \nabla H({\bf X}^0) \|}\right)^2 +  \sum_{i=2}^3 \, |({\bf X} - {\bf X}^0) \cdot {\bf V}_i|^2. 
+\text{minimize }&\left(\frac{H({\bf X}^0)}{\|  \nabla H({\bf X}^0) \|}\right)^2 +  \sum_{i=2}^3 \, |({\bf X} - {\bf X}^0) \cdot {\bf V}_i|^2 \\
+\text{such that }&H({\bf X}) = 0.
 \end{align*} 
+Now, try to argue geometrically that we can pick ${\bf X}$ so that $H({\bf X}) = 0$ and $({\bf X} - {\bf X}^0) \cdot {\bf V}_i = 0$ for $i = 2, 3$.  In fact, we can pick ${\bf X}$ so that ${\bf X} - {\bf X}^0$ is parallel to ${\bf V}_1$. 
 
 \end{document}
