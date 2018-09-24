@@ -63,11 +63,11 @@ Combining these two equations gives a formula for the time derivative of the dis
 \end{align*}
 We can then equivalently express the equations of motions as: 
 \begin{align}
-\label{eq:mot1}
+\label{eq:mot4}
 M_k \frac{d {\bf U}_k}{dt} &= \sum_{j \in N(k)} T_{jk} \frac{{\bf X}_j - {\bf X}_k}{\| {\bf X}_j - {\bf X}_k \|} \\
-\label{eq:mot2}
+\label{eq:mot5}
 \frac{d {\bf X}_k}{dt} &= {\bf U}_k \\
-\label{eq:mot3}
+\label{eq:mot6}
 T_{jk} &= S_{jk} \left( \|{\bf X}_j - {\bf X}_k\| - R^0_{jk} \right) + D_{jk} \frac{{\bf X}_j - {\bf X}_k}{\|{\bf X}_j - {\bf X}_k\|} \cdot ({\bf U}_j - {\bf U}_k)
 \end{align}
 Notice that the force magnitude for the dashpot involves the component of the velocity in the direction of spring, which seems to make sense!
@@ -94,6 +94,35 @@ Backward Euler is more complex to implement because the unknowns appear on the r
 
 \subsection{Modeling the interaction with the ground}
 
-The ground can quite generally be modeled as a one--dimensional surface in two dimensions, or a two--dimensional surface in three dimensions.
+The ground can be generically modeled as a one--dimensional curve in two dimensions, or a two--dimensional surface in three dimensions.  For example, a planar surface for the ground can be specified as:
+\begin{align*}
+a \, X_1 + b\, X_2 + c \,X_3 = 0
+\end{align*}
+with normal vector ${\bf n} = [a,b,c]^T$.  A more general equation for the ground takes the form:
+\begin{align*}
+H(X_1,X_2,X_3) = H({\bf X}) = 0.
+\end{align*}
+To model some sort of force that the ground exerts on each mass, we need to know when we are above and below it.  For a given mass at location ${\bf X}$ in $\mathbb{R}^2$ or $\mathbb{R}^3$, we say it is {\em above the ground} if $H({\bf X}) > 0$ and {\em below the ground} if $H({\bf X}) < 0$.  The force that the ground exerts on this mass will only be active when the mass is below the ground.
+
+As a modeling choice, we make the magnitude of this force proportional to the distance from the mass to the ground.  Set the mass' location below the ground to be ${\bf X}^0$, and take ${\bf X}$ to be some point on the ground, i.e. $H({\bf X}) = 0$.  Let's take a Taylor expansion:
+\begin{align*}
+H({\bf X}) - H({\bf X}^0) = \nabla H({\bf X}^0) \, ({\bf X} - {\bf X}^0) + \text{higher order terms}. 
+\end{align*}  
+
+A formula to find the distance from a mass at ${\bf X}^0$ to the ground would be the smallest distance $\|{\bf X} - {\bf X}^0\|$ such that $H({\bf X}) = 0$.  This can be stated as an optimization problem:
+\begin{align*}
+\text{minimize } &\|{\bf X} - {\bf X}^0\| \\
+\text{such that } &H({\bf X}) = 0.
+\end{align*}
+We can equivalently minimize the squared distance $\|{\bf X} - {\bf X}^0\|^2$, which is sometime easier to work with, so let's solve:
+\begin{align*}
+\text{minimize } &\|{\bf X} - {\bf X}^0\|^2 \\
+\text{such that } &H({\bf X}) = 0.
+\end{align*}
+Now, we make the assumption that the distance between ${\bf X} - {\bf X}^0$ is small; considering the Taylor expansion above, the higher order terms are very small, and we substitute in a formula for $H({\bf X})$, neglecting those terms: 
+\begin{align*}
+\text{minimize } &\|{\bf X} - {\bf X}^0\|^2 \\
+\text{such that } &-H({\bf X}^0) = \nabla H({\bf X}^0) \, ({\bf X} - {\bf X}^0).
+\end{align*}
 
 \end{document}
