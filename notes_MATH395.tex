@@ -25,9 +25,12 @@
 \title{Mathematical modeling in science, engineering, and economics}
 \maketitle
 
+\tableofcontents
 
+\newpage
 \section{Network of springs and dashpots}
 
+\subsection{Equations of motion}
 We consider a network of springs and dashpots which connect some masses.  Define the following physical parameters:
 \begin{align*}
 M_k &= \text{mass at node }k \\
@@ -69,10 +72,28 @@ T_{jk} &= S_{jk} \left( \|{\bf X}_j - {\bf X}_k\| - R^0_{jk} \right) + D_{jk} \f
 \end{align}
 Notice that the force magnitude for the dashpot involves the component of the velocity in the direction of spring, which seems to make sense!
 
-The next question we need to answer is how to approximate these equations on a computer.  We are modeling a system which involves space and time, but since the masses are already discrete spatial entities, we just need to worry about approximating the temporal dynamics numerically.  To do this, pick some small, discrete timestep $\Delta t > 0$.  For the {\em forward Euler} method, we use an approximation to the time derivative of the form:
+The next question we need to answer is how to approximate these equations on a computer.  We are modeling a system which involves space and time, but since the masses are already discrete spatial entities, we just need to worry about approximating the temporal dynamics numerically.  To do this, pick some small, discrete timestep $\Delta t > 0$.  For the {\bf \em forward Euler} method, we use an approximation to the time derivative of the form:
 \begin{align*}
 \frac{d {\bf U}}{dt}\Big|_{t + \Delta t} \approx \frac{{\bf U}(t+\Delta t ) - {\bf U}(t)}{\Delta t},
 \end{align*}
-and evaluate the right hand side of the equations of motion at time $t$.
+and evaluate the right hand side of the equations of motion at time $t$.  Explicitly, this becomes:
+\begin{align*}
+M_k \frac{{\bf U}_k(t + \Delta t) - {\bf U}_k(t)}{\Delta t} &= \sum_{j \in N(k)} T_{jk}(t) \frac{{\bf X}_j(t) - {\bf X}_k(t)}{\| {\bf X}_j(t) - {\bf X}_k(t) \|} \\
+\frac{{\bf X}_k(t + \Delta t) - {\bf X}_k(t)}{\Delta t} &= {\bf U}_k(t + \Delta t) \\
+T_{jk}(t) &= S_{jk} \left( \|{\bf X}_j(t) - {\bf X}_k(t)\| - R^0_{jk} \right) + D_{jk} \frac{{\bf X}_j(t) - {\bf X}_k(t)}{\|{\bf X}_j(t) - {\bf X}_k(t)\|} \cdot ({\bf U}_j(t) - {\bf U}_k(t))
+\end{align*}
+These equations allow us to first compute ${\bf U}_k(t + \Delta t)$ from the velocities and positions at time $t$, and then use this velocity to compute ${\bf X}_k(t + \Delta t)$. 
+
+We can alternatively evaluate the right hand of the equations of motion at time $t + \Delta t$.  This approach is the {\bf \em backward Euler} method.  To state this method, we just shift the time by $\Delta t$:
+\begin{align*}
+M_k \frac{{\bf U}_k(t) - {\bf U}_k(t- \Delta t)}{\Delta t} &= \sum_{j \in N(k)} T_{jk}(t) \frac{{\bf X}_j(t) - {\bf X}_k(t)}{\| {\bf X}_j(t) - {\bf X}_k(t) \|} \\
+\frac{{\bf X}_k(t) - {\bf X}_k(t - \Delta t)}{\Delta t} &= {\bf U}_k(t) \\
+T_{jk}(t) &= S_{jk} \left( \|{\bf X}_j(t) - {\bf X}_k(t)\| - R^0_{jk} \right) + D_{jk} \frac{{\bf X}_j(t) - {\bf X}_k(t)}{\|{\bf X}_j(t) - {\bf X}_k(t)\|} \cdot ({\bf U}_j(t) - {\bf U}_k(t))
+\end{align*}
+Backward Euler is more complex to implement because the unknowns appear on the right and left hand side of the discretized equations of motion.  This setup results in a nonlinear system to be solved at every timestep, and we can use for example Newton's method to solve this.
+
+\subsection{Modeling the interaction with the ground}
+
+The ground can quite generally be modeled as a one--dimensional surface in two dimensions, or a two--dimensional surface in three dimensions.
 
 \end{document}

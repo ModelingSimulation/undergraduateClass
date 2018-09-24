@@ -18,7 +18,7 @@ U = zeros(num_nodes, NDIM);
 RB = 0.8; % radius of ball
 center = [1, 10.5]; % initial location for ball center
 M = 5e-7*ones(num_nodes,1); % mass of each node 
-S = 10*ones(num_links,1); % spring constants
+S = 1*ones(num_links,1); % spring constants
 D = 0.0*0.001*ones(num_links,1); % dashpot constants
 G = 50000; % magnitude of the gravitational force
 Sg = 500000; % strength of the force exerted by the ground
@@ -97,7 +97,7 @@ for t = 1:length(timevec)
     plot(x',y','linewidth',4)
     xlim([0 2])
     ylim([-3 12])
-     axis equal
+    axis equal
     pause(0.001)
 
     % stop simulation if it blows up.
