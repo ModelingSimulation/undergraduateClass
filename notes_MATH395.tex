@@ -152,4 +152,18 @@ In summary, we use $-H({\bf X}^0) /\|  \nabla H({\bf X}^0)\|$ to approximate the
 \end{cases}
 \end{align*}
 
+We now wish to describe the effect of friction from the ground.  For this we need the tangential velocity ${\bf U}^{(\text{tan})}$ which can be obtained by projecting the velocity onto the vectors spanning the tangent plane to the ground.  Generically, the projection onto the space of vectors orthogonal to some unit vector ${\bf V}$ is 
+\begin{align*}
+\mathbb{I} - {\bf V} {\bf V}^T,
+\end{align*}
+where $\mathbb{I}$ is the identity matrix.  Note that we already have the normal vector at point ${\bf X}$ to the ground, given by  $H({\bf X}) / \|\nabla H({\bf X})\|$.  So, the projection onto the tangent plane to the ground at point ${\bf X}$ is given by the matrix
+\begin{align*}
+\mathbb{I} -\frac{\nabla H({\bf X})}{\|\nabla H({\bf X})\|}\frac{\nabla H({\bf X})^T}{\|\nabla H({\bf X})\|},
+\end{align*}
+and then the tangential velocity can be computed by applying this matrix to the velocity vector:
+\begin{align*}
+{\bf U}^{(\text{tan})} = {\bf U} -\frac{\nabla H({\bf X})}{\|\nabla H({\bf X})\|}\frac{\nabla H({\bf X}) \cdot {\bf U}}{\|\nabla H({\bf X})\|}.
+\end{align*}
+
+
 \end{document}
