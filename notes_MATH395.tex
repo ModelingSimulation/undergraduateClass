@@ -164,6 +164,16 @@ and then the tangential velocity can be computed by applying this matrix to the 
 \begin{align*}
 {\bf U}^{(\text{tan})} = {\bf U} -\frac{\nabla H({\bf X})}{\|\nabla H({\bf X})\|}\frac{\nabla H({\bf X}) \cdot {\bf U}}{\|\nabla H({\bf X})\|}.
 \end{align*}
+The frictional force should be proportional to the magnitude of the normal force exerted on the mass, which is precisely $|{\bf F}_\text{ground}({\bf X})|$, with some constant of proportionality $\mu_\text{friction}$.  Its direction should be opposing tangential motion, i.e. in the opposite direction of ${\bf U}^{(\text{tan})}$.  Putting these together, we can explicitly write the frictional force as
+\begin{align*}
+{\bf F}_\text{friction}({\bf X}) = 
+\begin{cases}
+0 & \text{if }H({\bf X}) \geq 0 \\
+-S_\text{ground}\,\mu_\text{friction} \frac{H({\bf X})}{\|\nabla H({\bf X})\|} \frac{{\bf U}^{(\text{tan})}({\bf X})}{\|{\bf U}^{(\text{tan})}\|} & \text{if }H({\bf X}) < 0
+\end{cases}
+\end{align*}
+
+\subsection{Rigid body motion}
 
 
 \end{document}
