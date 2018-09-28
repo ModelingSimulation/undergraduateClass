@@ -203,7 +203,20 @@ Notice that we haven't made any assumptions about rigidity, and the spring force
 \frac{d {\bs L}}{dt} &= {\bs \tau} = \sum_k ({\bs X}_k - {\bs X}_\text{cm}) \times {\bs F}_k \\
 {\bs L} &= \sum_k M_k ({\bs X}_k - {\bs X}_\text{cm}) \times ({\bs U}_k - {\bs U}_\text{cm}).
 \end{align*}
-Now, we make the assumption that our body is rigid.  Then, the motion of each mass in the body at time $t$ is determined by the velocity of the center of mass ${\bs U}_\text{cm}(t)$ and the angular velocity ${\bs \Omega}(t)$ of the whole body about its center of mass.  
+Now, we make the assumption that our body is rigid.  Then, the motion of each mass in the body at time $t$ is determined by the velocity of the center of mass ${\bs U}_\text{cm}(t)$ and the angular velocity ${\bs \Omega}(t)$ of the whole body about its center of mass.  Explicitly this is given by the following formula:
+\begin{align*}
+{\bs U}_k(t) = {\bs U}_\text{cm}(t) + {\bs \Omega}(t) \times ({\bs X}_k - {\bs X}_\text{cm}(t)).
+\end{align*}  
+From this formula we can derive a relationship between ${\bs L}$ and ${\bs \Omega}$,
+\begin{align*}
+{\bs L}(t) = {\bs I}(t) {\bs \Omega}(t),
+\end{align*}
+where ${\bs I}$ is the {\em moment of inertia} tensor defined as follows:
+\begin{align*}
+{\bf I}(t) &= \sum_k M_k \left( \| \tilde{{\bs X}}_k(t) \|^2 \mathbb{I} - \tilde{{\bs X}}_k(t) \tilde{{\bs X}}_k(t)^T \right) \\
+\tilde{{\bs X}}_k(t) &= {\bs X}_k(t) - {\bs X}_\text{cm}(t).
+\end{align*}
+Just to reiterate, ${\bs I}$ is the moment of inertia tensor and $\mathbb{I}$ is the identity matrix.
 
 \section{Chemical kinetics}
 
