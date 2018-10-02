@@ -15,6 +15,9 @@
 \newtheorem{mycor}{Corollary}
 \newtheorem{myrem}{Remark}
 \newtheorem{mythm}{Theorem}
+\newtheorem{myex}{Example}
+\newtheorem{myexer}{Exercise}
+
 
 \newcommand{\bs}[1]{{\boldsymbol #1}}
 \newcommand{\hot}[1]{\textcolor{red}{#1}} 
@@ -183,7 +186,7 @@ Notice that we have:
 \begin{align*}
 \frac{d {\bs X}_\text{cm}}{dt} = {\bs U}_\text{cm}.
 \end{align*}
-To get a differential equation for the velocity, take \eqref{eq:mot4} and sum over $k$.  Notice that the terms:
+To get a differential equation for the velocity of the center of mass, take \eqref{eq:mot4} and sum over $k$.  Notice that the terms:
 \begin{align*}
 \sum_k \sum_{j \in N(k)} T_{jk} \frac{{\bs X}_j - {\bs X}_k}{\| {\bs X}_j - {\bs X}_k \|} = 0,
 \end{align*}
@@ -204,20 +207,46 @@ Notice that we haven't made any assumptions about rigidity, and the spring force
 {\bs L} &= \sum_k M_k ({\bs X}_k - {\bs X}_\text{cm}) \times ({\bs U}_k - {\bs U}_\text{cm}).
 \end{align*}
 Now, we make the assumption that our body is rigid.  Then, the motion of each mass in the body at time $t$ is determined by the velocity of the center of mass ${\bs U}_\text{cm}(t)$ and the angular velocity ${\bs \Omega}(t)$ of the whole body about its center of mass.  Explicitly this is given by the following formula:
-\begin{align*}
+\begin{align}
+\label{eq:rigmot3}
 {\bs U}_k(t) = {\bs U}_\text{cm}(t) + {\bs \Omega}(t) \times ({\bs X}_k - {\bs X}_\text{cm}(t)).
-\end{align*}  
+\end{align}  
 From this formula we can derive a relationship between ${\bs L}$ and ${\bs \Omega}$,
-\begin{align*}
+\begin{align}
+\label{eq:rigmot4}
 {\bs L}(t) = {\bs I}(t) {\bs \Omega}(t),
-\end{align*}
+\end{align}
 where ${\bs I}$ is the {\em moment of inertia} tensor defined as follows:
 \begin{align*}
-{\bf I}(t) &= \sum_k M_k \left( \| \tilde{{\bs X}}_k(t) \|^2 \mathbb{I} - \tilde{{\bs X}}_k(t) \tilde{{\bs X}}_k(t)^T \right) \\
+{\bs I}(t) &= \sum_k M_k \left( \| \tilde{{\bs X}}_k(t) \|^2 \mathbb{I} - \tilde{{\bs X}}_k(t) \tilde{{\bs X}}_k(t)^T \right) \\
 \tilde{{\bs X}}_k(t) &= {\bs X}_k(t) - {\bs X}_\text{cm}(t).
 \end{align*}
-Just to reiterate, ${\bs I}$ is the moment of inertia tensor and $\mathbb{I}$ is the identity matrix.
+Just to reiterate, ${\bs I}$ is the moment of inertia tensor and $\mathbb{I}$ is the identity matrix.  It can be thought of as a three-dimensional description of the distribution of mass points in our system, about the center of mass.
+\begin{myexer}
+Consider four masses in two dimensions, all with same mass, placed on the coordinate axes a distance $r > 0$ from the origin.  Compute the motion of inertia tensor and provide an interpretation.
+\end{myexer}
+We can argue that the moment of inertia tensor is symmetric positive definite under reasonable assumptions, i.e.
+\begin{align*}
+{\bs V} \cdot {\bs I}\, {\bs V} > 0 \quad \text{for all }{\bs V} \neq 0,
+\end{align*}
+which implies it is invertible.  This is a nice fact; given the angular momentum ${\bs L}(t)$ and the moment of inertia ${\bs I}(t)$, at a given time we can compute the angular velocity by solving system \eqref{eq:rigmot4}, and then update the velocities of each mass using \eqref{eq:rigmot3}.  Let ${\bs R}({\bs \Omega}(t),\Delta t)$ denote the orthogonal matrix defining an {\em exact} rotation at angular velocity ${\bs \Omega}(t)$ for a time $\Delta t$.  This matrix is defined later.  Below defines a timestep for a rigid body simulation in detail, from time $t$ to $t + \Delta t$:
+\begin{itemize}
+\item initial data ${\bs X}_\text{cm}(t)$, ${\bs U}_\text{cm}(t)$, $\ldots, {\bs X}_k(t) \ldots$, ${\bs L}(t)$.
+\item given $\tilde{{\bs X}}_k(t)$, compute ${\bs I}(t)$.
+\item solve the system ${\bs I}(t){\bs \Omega}(t) = {\bs L}(t)$ for ${\bs \Omega}(t)$.
+\item using ${\bs \Omega}(t)$, update $\tilde{{\bs X}}_k(t + \Delta t) = {\bs R}({\bs \Omega}(t), \Delta t)\, \tilde{{\bs X}}_k(t)$.
+\item update the center of mass: ${\bs X}_\text{cm}(t + \Delta t) = {\bs X}_\text{cm}(t) + \Delta t \, {\bs U}_\text{cm}(t)$.
+\item update the velocity of the center of mass:
+\begin{align*}
+M \frac{{\bs U}_\text{cm}(t + \Delta t) - {\bs U}_\text{cm}(t)}{\Delta t} = \sum_k {\bs F}_k(t + \Delta t).
+\end{align*}
+\item update the angular momentum:
+\begin{align*}
+\frac{{\bs L}(t + \Delta t) - {\bs L}(t)}{\Delta t} = \sum_k \tilde{{\bs X}}_k(t + \Delta t) \times {\bs F}_k(t + \Delta t).
+\end{align*}
+\end{itemize}
 
+\newpage
 \section{Chemical kinetics}
 
 
