@@ -245,7 +245,7 @@ M \frac{{\bs U}_\text{cm}(t + \Delta t) - {\bs U}_\text{cm}(t)}{\Delta t} = \sum
 \frac{{\bs L}(t + \Delta t) - {\bs L}(t)}{\Delta t} = \sum_k \tilde{{\bs X}}_k(t + \Delta t) \times {\bs F}_k(t + \Delta t).
 \end{align*}
 \end{itemize}
-Now we discuss how to construct the orthogonal matrix ${\bs R}({\bs \Omega}, \Delta t)$, were we have dropped the time $t$ for conciseness.  Given a position vector $\tilde{{\bs X}}$ about the center of mass, this matrix will rotate this vector an amount $\|{\bs \Omega}\|\Delta t$ in a time $\Delta t$.  The part of the vector that will not be affected by the rotation will be its projection onto the unit vector in the direction of ${\bs \Omega}$, namely:
+Now we discuss the construction of the orthogonal matrix ${\bs R}({\bs \Omega}, \Delta t)$, were we have dropped the time $t$ for conciseness.  Given a position vector $\tilde{{\bs X}}$ about the center of mass, this matrix will rotate this vector an amount $\|{\bs \Omega}\|\Delta t$, in radians, in time $\Delta t$.  The part of the vector that will not be affected by the rotation will be its projection onto the unit vector in the direction of ${\bs \Omega}$, namely:
 \begin{align*}
 \frac{{\bs \Omega}}{\|{\bs \Omega}\|} \frac{{\bs \Omega}^T}{\|{\bs \Omega}\|} \tilde{\bs X} = {\bs P}({\bs \Omega}) \tilde{\bs X}.
 \end{align*} 
@@ -262,6 +262,17 @@ Again, drawing a picture is a really good way to see this.  Notice that this bas
 \begin{align*}
 {\bs V} = \alpha_1 {\bs V}_1 + \alpha_2 {\bs V}_2.
 \end{align*}
+In particular, the basis vector ${\bs V}_1$, rotated by an amount $\|{\bs \Omega}\|\Delta t$, can be written as 
+\begin{align*}
+ \cos(\|{\bs \Omega}\|\Delta t){\bs V}_1 + \sin(\|{\bs \Omega}\|\Delta t){\bs V}_2. 
+\end{align*}
+This rotated vector is precisely the part of $\tilde{\bs X}$ which  rotates about the center of mass.  The orthogonal matrix can be expressed as:
+\begin{align*}
+{\bs R}({\bs \Omega}, \Delta t) \tilde{\bs X} = {\bs P}({\bs \Omega}) \tilde{\bs X} +  \cos(\|{\bs \Omega}\|\Delta t) (\mathbb{I} - {\bs P}({\bs \Omega})) \tilde{\bs X} + \sin(\|{\bs \Omega}\|\Delta t) \frac{{\bs \Omega}}{\|{\bs \Omega}\|} \times \tilde{\bs X}.
+\end{align*}
+\begin{myexer}
+Show that ${\bs R}({\bs \Omega}, \Delta t)$ is an orthogonal matrix.
+\end{myexer}
 
 \newpage
 \section{Chemical kinetics}
