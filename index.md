@@ -15,3 +15,9 @@ Here, we will post some useful example code and notes.  It is not required for y
 ### Notes
 
 Here is a link to some [notes](notes_MATH395.pdf) that will be regularly updated.  These are still a work in progress.
+
+## Projects
+
+Proposals for the first project will be due Friday, October 12, by email at 11:59pm.  Writeups for the first project will be due Friday, November 9, by email at 11:59pm.  We will strive to have your presentations before you turn in your writeups, so you can incorporate any comments you may receive during your presentation.
+
+Proposals for the second project will be due Friday, November 2, by email at 11:59pm.  Presentations and writeups for the second project should be done by the end of the exam period.
