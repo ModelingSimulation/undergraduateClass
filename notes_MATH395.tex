@@ -245,6 +245,23 @@ M \frac{{\bs U}_\text{cm}(t + \Delta t) - {\bs U}_\text{cm}(t)}{\Delta t} = \sum
 \frac{{\bs L}(t + \Delta t) - {\bs L}(t)}{\Delta t} = \sum_k \tilde{{\bs X}}_k(t + \Delta t) \times {\bs F}_k(t + \Delta t).
 \end{align*}
 \end{itemize}
+Now we discuss how to construct the orthogonal matrix ${\bs R}({\bs \Omega}, \Delta t)$, were we have dropped the time $t$ for conciseness.  Given a position vector $\tilde{{\bs X}}$ about the center of mass, this matrix will rotate this vector an amount $\|{\bs \Omega}\|\Delta t$ in a time $\Delta t$.  The part of the vector that will not be affected by the rotation will be its projection onto the unit vector in the direction of ${\bs \Omega}$, namely:
+\begin{align*}
+\frac{{\bs \Omega}}{\|{\bs \Omega}\|} \frac{{\bs \Omega}^T}{\|{\bs \Omega}\|} \tilde{\bs X} = {\bs P}({\bs \Omega}) \tilde{\bs X}.
+\end{align*} 
+Draw a picture to see this!!  Expressing
+\begin{align*}
+\tilde{\bs X} = {\bs P}({\bs \Omega}) \tilde{\bs X} + (\mathbb{I} - {\bs P}({\bs \Omega})) \tilde{\bs X},
+\end{align*}
+we can see that the part of $\tilde{\bs X}$ we need to rotate is $(\mathbb{I} - {\bs P}({\bs \Omega})) \tilde{\bs X}.$  Using this vector we construct a basis for the plane normal to ${\bs \Omega}$ and through the origin:
+\begin{align*}
+{\bs V}_1 &=  (\mathbb{I} - {\bs P}({\bs \Omega})) \tilde{\bs X}, \\
+{\bs V}_2 &=  \frac{{\bs \Omega}}{\|{\bs \Omega}\|} \times (\mathbb{I} - {\bs P}({\bs \Omega})) \tilde{\bs X} = \frac{{\bs \Omega}}{\|{\bs \Omega}\|} \times \tilde{\bs X}. 
+\end{align*}
+Again, drawing a picture is a really good way to see this.  Notice that this basis $\{{\bs V}_1, {\bs V}_2\}$ is not necessarily {\em orthonormal}\ldots its important to maintain the correct magnitudes of the vectors here.  Instead $\|{\bs V}_1\| = \|{\bs V}\|_2$, and these norms are not necessarily equal to one.  Now any vector ${\bs V}$ in this plane can be expressed as a linear combination:
+\begin{align*}
+{\bs V} = \alpha_1 {\bs V}_1 + \alpha_2 {\bs V}_2.
+\end{align*}
 
 \newpage
 \section{Chemical kinetics}
