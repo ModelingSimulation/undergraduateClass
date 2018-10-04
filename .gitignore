@@ -1,7 +1,6 @@
-*.dat
-*.log
-*.bbl
-*.aux
-*.avi
-*.toc
-*.synctex.gz
+*
+!*.m
+!*.pdf
+!*.md
+!*.eps
+!*.png
