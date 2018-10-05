@@ -19,7 +19,7 @@ RB = 0.8; % radius of ball
 center = [0, 0, 10.5]; % initial location for ball center
 M = 5e-7*ones(num_nodes,1); % mass of each node 
 G = 50000; % magnitude of the gravitational force
-Sg = 500000; % strength of the force exerted by the ground
+Sg = 0.5; % strength of the force exerted by the ground
 
 % set numerical parameters
 dt = 1e-4;
