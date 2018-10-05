@@ -1,6 +1,6 @@
-clear all; clc;
-% building a bouncing ball that is rigid
-NDIM = 2;
+close all; clear all; clc;
+% building a flat bouncing ball that is rigid
+NDIM = 3;
 
 % number of nodes around the circumference of the ball
 %n = 30;
@@ -16,7 +16,7 @@ U = zeros(num_nodes, NDIM);
 
 % set physical parameters
 RB = 0.8; % radius of ball
-center = [1, 10.5]; % initial location for ball center
+center = [0, 0, 10.5]; % initial location for ball center
 M = 5e-7*ones(num_nodes,1); % mass of each node 
 G = 50000; % magnitude of the gravitational force
 Sg = 500000; % strength of the force exerted by the ground
@@ -29,7 +29,7 @@ timevec = 0:dt:end_time;
 % set positions of nodes around the circumference of the ball
 for k = 1:n
     theta = 2*pi*k/n;
-    X(k,:) = center + RB*[cos(theta), sin(theta)];
+    X(k,:) = center + RB*[cos(theta), 0, sin(theta)];
 end
 % set position of center
 X(n+1,:) = center;
@@ -44,11 +44,14 @@ kk(spokes) = n+1;
 jj(rimlinks) = 1:n;
 kk(rimlinks) = [2:n 1];
 
+X
+
 % plot initial structure
 figure(1);
 x = [X(jj,1) X(kk,1)];
 y = [X(jj,2) X(kk,2)];
-plot(x',y','linewidth',4)
+z = [X(jj,3) X(kk,3)];
+plot3(x',y',z','linewidth',4)
 
 % initialize rest length
 DX = X(jj,:) - X(kk,:);
@@ -57,14 +60,15 @@ Rzero = sqrt(sum(DX.^2,2));
 % make a gravitational force
 F_gravity = zeros(num_nodes, NDIM);
 F_gravity(:,1) = 0;
-F_gravity(:,2) = -G; 
+F_gravity(:,2) = 0;
+F_gravity(:,3) = -G.*M; 
 
 % set the angular velocity initially to zero, since the velocity is also
 % initially set to zero
-L = zeros(3,1);
+L = zeros(NDIM,1);
 
 % initialize velocity center of mass
-Ucm = zeros(3,1);
+Ucm = zeros(NDIM,1);
 
 % here is the timestep loop
 centroid_position = zeros(length(timevec), NDIM);
@@ -74,29 +78,44 @@ for t = 1:length(timevec)
     disp(timevec(t));	
 
     % compute center of mass and Xtwiddle
-    Xcm = mean((M.*X));
-    Xtwiddle = X - Xcm;	       
+    Xcm = (mean((M.*X))./sum(M))';
+    Xtwiddle = X - Xcm';	       
 
     % compute moment of inertia tensor
-    I = zeros(3,3);
-    for kk = 1:num_nodes
-	I = M(kk).*( norm(X(kk,:))^2.*eye(3) - X(kk,:)'*X(kk,:) );
+    I = zeros(NDIM, NDIM);
+    for l = 1:num_nodes
+	I = I + M(l).*( (norm(Xtwiddle(l,:))^2).*eye(NDIM) - Xtwiddle(l,:)'*Xtwiddle(l,:) );
     end     
 
     % compute the angular velocity
     Omega = I\L;
 
     % normalize angular velocity if it is nonzero
-    if(Omega > 100*eps)
+    if(norm(Omega) > 100*eps)
          unit_Omega = Omega/norm(Omega);
          Omega_cross = [0 -Omega(3) Omega(2); Omega(3) 0 -Omega(1); -Omega(2) Omega(1) 0];
          P_Omega = unit_Omega*unit_Omega';
-	 Xtwiddle = ( P_Omega*(Xtwiddle') + cos(norm(Omega)*dt).*(eye(3) - P_Omega)*(Xtwidde') + sin(norm(Omega)*dt).*(Omega_cross*(Xtwiddle'))./norm(Omega) )'
+	 Xtwiddle = ( P_Omega*(Xtwiddle') + cos(norm(Omega)*dt).*(eye(NDIM) - P_Omega)*(Xtwiddle') + sin(norm(Omega)*dt).*(Omega_cross*(Xtwiddle'))./norm(Omega) )';
     end      
 
-    % update the position and velocity for each node
-    sum(M)*U = U + (dt*F./[M M]) + dt*F_gravity + dt*F_ground(X,Sg);
-    X = X + dt*U;
+    % compute net force and net torque
+    net_force = zeros(NDIM,1);
+    net_torque = zeros(NDIM,1);
+    ground_force = F_ground(X,Sg);
+    for l = 1:num_nodes
+    	net_force = net_force + F_gravity(l,:)' + ground_force(l,:)';
+        net_torque = net_torque + cross(Xtwiddle(l,:)', F_gravity(l,:)' + ground_force(l,:)');
+    end	
+
+    % update the position and velocity for the center of mass
+    Xcm = Xcm + dt.*Ucm;
+    Ucm = Ucm + (dt/sum(M)).*net_force;
+
+    % update the angular momentum
+    L = L + dt.*net_torque;    
+
+    % update positions of individual masses
+    X = Xtwiddle + Xcm';
 
     % store the position of centroid
     centroid_position(t,:) = X(n+1,:);
@@ -105,14 +124,16 @@ for t = 1:length(timevec)
     figure(2);
     x = [X(jj,1) X(kk,1)];
     y = [X(jj,2) X(kk,2)];
-    plot(x',y','linewidth',4)
-    xlim([0 2])
-    ylim([-3 12])
+    y = [X(jj,3) X(kk,3)];
+    plot3(x',y',z','linewidth',4)
+    %xlim([-3 3])
+    %ylim([-1 1])
+    %zlim([0 12])
     axis equal
     pause(0.001)
 
     % stop simulation if it blows up.
-    if(abs(X)> 1e16)
+    if(abs(X)> 1e2)
       break
     end
 
@@ -121,9 +142,9 @@ end
 figure(3); hold on
 plot(timevec, centroid_position,'linewidth',2)
 
-% function which defines the force on the ground, existing on the plane X_2 = 0
+% function which defines the force on the ground, existing on the plane X_3 = 0
 function Fg = F_ground(X,Sg)
     Fg = zeros(size(X));
-    Fg(:,2) = (X(:,2) < 0).*(-Sg*X(:,2));
+    Fg(:,3) = (X(:,3) < 0).*(-Sg*X(:,3));
 end
 
