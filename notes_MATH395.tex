@@ -201,7 +201,18 @@ M\frac{d {\bs U}_\text{cm}}{dt} &= {\bs F} = \sum_k {\bs F}_k \\
 \label{eq:rigmot2}
 \frac{d {\bs X}_\text{cm}}{dt} &= {\bs U}_\text{cm}.
 \end{align}
-Notice that we haven't made any assumptions about rigidity, and the spring forces are not involved in determining the motion of the center of mass.  We can also derive formula for the angular momentum ${\bs L}$ of the system about its center of mass, who's time derivative is the torque ${\bs \tau}$:
+Notice that we haven't made any assumptions about rigidity, and the spring forces are not involved in determining the motion of the center of mass.  We can also derive formula for the angular momentum ${\bs L}$ of the system about its center of mass, who's time derivative is the torque ${\bs \tau}$.  The definition of the angular momentum is:
+\begin{align*}
+{\bs L}(t) = \sum_k M_k ({\bs X}_k - {\bs X}_\text{cm}) \times {\bs U}_k.
+\end{align*}
+Notice that 
+\begin{align*}
+0 = \left( \sum_k M_k {\bs X}_k - M{\bs X}_\text{cm} \right) \times {\bs U}_\text{cm} = \sum_k M_k ({\bs X}_k - {\bs X}_\text{cm}) \times {\bs U}_\text{cm},
+\end{align*}
+so the angular momentum can equivalently be written as:
+\begin{align*}
+{\bs L}(t) = \sum_k M_k ({\bs X}_k - {\bs X}_\text{cm}) \times ({\bs U}_k - {\bs U}_\text{cm}).
+\end{align*}
 \begin{align*}
 \frac{d {\bs L}}{dt} &= {\bs \tau} = \sum_k ({\bs X}_k - {\bs X}_\text{cm}) \times {\bs F}_k \\
 {\bs L} &= \sum_k M_k ({\bs X}_k - {\bs X}_\text{cm}) \times ({\bs U}_k - {\bs U}_\text{cm}).

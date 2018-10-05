@@ -34,6 +34,12 @@ end
 % set position of center
 X(n+1,:) = center;
 
+% set the initial velocities to make the ball spin
+for k = 1:n
+    theta = 2*pi*k/n;
+    U(k,:) = 10000.*[-sin(theta), 0, cos(theta)];
+end
+
 % naming index sets for the links
 spokes = 1:n;
 rimlinks = (n+1):2*n;
@@ -59,14 +65,13 @@ Rzero = sqrt(sum(DX.^2,2));
 F_gravity = zeros(num_nodes, NDIM);
 F_gravity(:,1) = 0;
 F_gravity(:,2) = 0;
-F_gravity(:,3) = -G.*M; 
-
-% set the angular velocity initially to zero, since the velocity is also
-% initially set to zero
-L = zeros(NDIM,1);
+F_gravity(:,3) = 0; %-G.*M; 
 
 % initialize velocity center of mass
-Ucm = zeros(NDIM,1);
+Ucm = (mean((M.*U))./sum(M))';
+
+% initialize the angular velocity
+L = zeros(NDIM,1);
 
 % here is the timestep loop
 centroid_position = zeros(length(timevec), NDIM);
