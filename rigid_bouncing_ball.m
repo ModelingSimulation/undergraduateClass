@@ -17,7 +17,7 @@ U = zeros(num_nodes, NDIM);
 % set physical parameters
 RB = 0.8; % radius of ball
 center = [0, 0, 10.5]; % initial location for ball center
-M = 5e-7*ones(num_nodes,1); % mass of each node 
+M = 5e-4*ones(num_nodes,1); % mass of each node 
 G = 50000; % magnitude of the gravitational force
 Sg = 0.5; % strength of the force exerted by the ground
 
@@ -35,10 +35,10 @@ end
 X(n+1,:) = center;
 
 % set the initial velocities to make the ball spin
-%for k = 1:n
-%    theta = 2*pi*k/n;
-%    U(k,:) = 10000.*[-sin(theta), 0, cos(theta)];
-%end
+for k = 1:n
+    theta = 2*pi*k/n;
+    U(k,:) = 10000.*[-sin(theta), 0, cos(theta)];
+end
 
 % naming index sets for the links
 spokes = 1:n;
@@ -61,7 +61,7 @@ plot3(x',y',z','linewidth',4)
 F_gravity = zeros(num_nodes, NDIM);
 F_gravity(:,1) = 0;
 F_gravity(:,2) = 0;
-F_gravity(:,3) = -G.*M; 
+F_gravity(:,3) = 0; %-G.*M; 
 
 % initialize the position of the center of mass
 Xcm = (mean((M.*X))./sum(M))';
@@ -75,8 +75,8 @@ Xtwiddle = X - Xcm';
 
 % initialize the angular velocity
 L = zeros(NDIM,1);
-for l = 1:num_nodes
-    L = L + cross(Xtwiddle(l,:),U(l,:));
+for k = 1:num_nodes
+    L = L + cross(Xtwiddle(k,:),U(k,:))';
 end	
 
 % here is the timestep loop
@@ -88,8 +88,8 @@ for t = 1:length(timevec)
 
     % compute moment of inertia tensor
     I = zeros(NDIM, NDIM);
-    for l = 1:num_nodes
-	I = I + M(l).*( (norm(Xtwiddle(l,:))^2).*eye(NDIM) - Xtwiddle(l,:)'*Xtwiddle(l,:) );
+    for k = 1:num_nodes
+	I = I + M(k).*( (norm(Xtwiddle(k,:))^2).*eye(NDIM) - Xtwiddle(k,:)'*Xtwiddle(k,:) );
     end     
 
     % compute the angular velocity
@@ -101,7 +101,7 @@ for t = 1:length(timevec)
          Omega_cross = [0 -Omega(3) Omega(2); Omega(3) 0 -Omega(1); -Omega(2) Omega(1) 0];
          P_Omega = unit_Omega*unit_Omega';
 	 Xtwiddle = ( P_Omega*(Xtwiddle') + cos(norm(Omega)*dt).*(eye(NDIM) - P_Omega)*(Xtwiddle') + sin(norm(Omega)*dt).*(Omega_cross*(Xtwiddle'))./norm(Omega) )';
-    end      
+    end
 
     % compute net force and net torque
     net_force = zeros(NDIM,1);
@@ -111,8 +111,6 @@ for t = 1:length(timevec)
     	net_force = net_force + F_gravity(l,:)' + ground_force(l,:)';
         net_torque = net_torque + cross(Xtwiddle(l,:)', F_gravity(l,:)' + ground_force(l,:)');
     end	
-
-    net_force
 
     % update the position and velocity for the center of mass
     Ucm = Ucm + (dt/sum(M)).*net_force;
@@ -136,12 +134,13 @@ for t = 1:length(timevec)
     xlim([-3 3])
     ylim([-1 1])
     zlim([0 12])
-    pause(0.001)
 
     % stop simulation if it blows up.
     if(norm(X)> 1e2)
       break
     end
+
+    pause
 
 end
 
