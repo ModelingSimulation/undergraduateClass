@@ -44,8 +44,6 @@ kk(spokes) = n+1;
 jj(rimlinks) = 1:n;
 kk(rimlinks) = [2:n 1];
 
-X
-
 % plot initial structure
 figure(1);
 x = [X(jj,1) X(kk,1)];
@@ -124,16 +122,15 @@ for t = 1:length(timevec)
     figure(2);
     x = [X(jj,1) X(kk,1)];
     y = [X(jj,2) X(kk,2)];
-    y = [X(jj,3) X(kk,3)];
+    z = [X(jj,3) X(kk,3)];
     plot3(x',y',z','linewidth',4)
-    %xlim([-3 3])
-    %ylim([-1 1])
-    %zlim([0 12])
-    axis equal
+    xlim([-3 3])
+    ylim([-1 1])
+    zlim([0 12])
     pause(0.001)
 
     % stop simulation if it blows up.
-    if(abs(X)> 1e2)
+    if(norm(X)> 1e2)
       break
     end
 
