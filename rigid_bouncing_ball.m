@@ -35,10 +35,10 @@ end
 X(n+1,:) = center;
 
 % set the initial velocities to make the ball spin
-for k = 1:n
-    theta = 2*pi*k/n;
-    U(k,:) = 10000.*[-sin(theta), 0, cos(theta)];
-end
+%for k = 1:n
+%    theta = 2*pi*k/n;
+%    U(k,:) = 10000.*[-sin(theta), 0, cos(theta)];
+%end
 
 % naming index sets for the links
 spokes = 1:n;
@@ -57,21 +57,27 @@ y = [X(jj,2) X(kk,2)];
 z = [X(jj,3) X(kk,3)];
 plot3(x',y',z','linewidth',4)
 
-% initialize rest length
-DX = X(jj,:) - X(kk,:);
-Rzero = sqrt(sum(DX.^2,2));
-
 % make a gravitational force
 F_gravity = zeros(num_nodes, NDIM);
 F_gravity(:,1) = 0;
 F_gravity(:,2) = 0;
-F_gravity(:,3) = 0; %-G.*M; 
+F_gravity(:,3) = -G.*M; 
+
+% initialize the position of the center of mass
+Xcm = (mean((M.*X))./sum(M))';
 
 % initialize velocity center of mass
 Ucm = (mean((M.*U))./sum(M))';
 
+% initialize Xtwiddle
+Xtwiddle = zeros(num_nodes,NDIM);
+Xtwiddle = X - Xcm';
+
 % initialize the angular velocity
 L = zeros(NDIM,1);
+for l = 1:num_nodes
+    L = L + cross(Xtwiddle(l,:),U(l,:));
+end	
 
 % here is the timestep loop
 centroid_position = zeros(length(timevec), NDIM);
@@ -79,10 +85,6 @@ for t = 1:length(timevec)
 
     % this just displays the current simulation time in the matlab window
     disp(timevec(t));	
-
-    % compute center of mass and Xtwiddle
-    Xcm = (mean((M.*X))./sum(M))';
-    Xtwiddle = X - Xcm';	       
 
     % compute moment of inertia tensor
     I = zeros(NDIM, NDIM);
@@ -110,9 +112,11 @@ for t = 1:length(timevec)
         net_torque = net_torque + cross(Xtwiddle(l,:)', F_gravity(l,:)' + ground_force(l,:)');
     end	
 
+    net_force
+
     % update the position and velocity for the center of mass
-    Xcm = Xcm + dt.*Ucm;
     Ucm = Ucm + (dt/sum(M)).*net_force;
+    Xcm = Xcm + dt.*Ucm;
 
     % update the angular momentum
     L = L + dt.*net_torque;    
