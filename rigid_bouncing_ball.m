@@ -4,7 +4,7 @@ NDIM = 3;
 
 % number of nodes around the circumference of the ball
 %n = 30;
-n = 10; 
+n = 4; 
 
 % initialize arrays
 num_nodes = n+1;
@@ -17,13 +17,15 @@ U = zeros(num_nodes, NDIM);
 % set physical parameters
 RB = 0.8; % radius of ball
 center = [0, 0, 10.5]; % initial location for ball center
-M = 5e-4*ones(num_nodes,1); % mass of each node 
+M = ones(num_nodes,1);
+M(1:n) = 5e3*ones(n,1); % mass of each node
+M(end) = 5e-8; % mass of each node 
 G = 50000; % magnitude of the gravitational force
 Sg = 0.5; % strength of the force exerted by the ground
 
 % set numerical parameters
 dt = 1e-4;
-end_time = 1e0;
+end_time = 500*dt; %1e0;
 timevec = 0:dt:end_time;
 
 % set positions of nodes around the circumference of the ball
@@ -34,11 +36,11 @@ end
 % set position of center
 X(n+1,:) = center;
 
-% set the initial velocities to make the ball spin
-for k = 1:n
-    theta = 2*pi*k/n;
-    U(k,:) = 10000.*[-sin(theta), 0, cos(theta)];
-end
+% set the initial velocities on the outer masses to make the ball spin
+%for k = 1:n
+%    theta = 2*pi*k/n;
+%    U(k,:) = 1e5.*[-sin(theta), 0, cos(theta)];
+%end
 
 % naming index sets for the links
 spokes = 1:n;
@@ -64,10 +66,10 @@ F_gravity(:,2) = 0;
 F_gravity(:,3) = 0; %-G.*M; 
 
 % initialize the position of the center of mass
-Xcm = (mean((M.*X))./sum(M))';
+Xcm = (sum((M.*X))./sum(M))';
 
 % initialize velocity center of mass
-Ucm = (mean((M.*U))./sum(M))';
+Ucm = (sum((M.*U))./sum(M))';
 
 % initialize Xtwiddle
 Xtwiddle = zeros(num_nodes,NDIM);
@@ -75,9 +77,10 @@ Xtwiddle = X - Xcm';
 
 % initialize the angular velocity
 L = zeros(NDIM,1);
-for k = 1:num_nodes
-    L = L + cross(Xtwiddle(k,:),U(k,:))';
-end	
+L = [0; 1e9; 0];
+%for k = 1:num_nodes
+%    L = L + cross(Xtwiddle(k,:),U(k,:))';
+%end	
 
 % here is the timestep loop
 centroid_position = zeros(length(timevec), NDIM);
@@ -134,18 +137,18 @@ for t = 1:length(timevec)
     xlim([-3 3])
     ylim([-1 1])
     zlim([0 12])
+    pause(0.0001)
 
     % stop simulation if it blows up.
     if(norm(X)> 1e2)
       break
     end
 
-    pause
-
 end
 
 figure(3); hold on
 plot(timevec, centroid_position,'linewidth',2)
+legend('x','y','z')
 
 % function which defines the force on the ground, existing on the plane X_3 = 0
 function Fg = F_ground(X,Sg)
