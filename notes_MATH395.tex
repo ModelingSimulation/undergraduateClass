@@ -206,13 +206,23 @@ Notice that we haven't made any assumptions about rigidity, and the spring force
 {\bs L}(t) = \sum_k M_k ({\bs X}_k - {\bs X}_\text{cm}) \times {\bs U}_k.
 \end{align*}
 Notice that 
-\begin{align*}
+\begin{align}
+\label{eq:rand1}
 0 = \left( \sum_k M_k {\bs X}_k - M{\bs X}_\text{cm} \right) \times {\bs U}_\text{cm} = \sum_k M_k ({\bs X}_k - {\bs X}_\text{cm}) \times {\bs U}_\text{cm},
-\end{align*}
+\end{align}
 so the angular momentum can equivalently be written as:
 \begin{align*}
 {\bs L}(t) = \sum_k M_k ({\bs X}_k - {\bs X}_\text{cm}) \times ({\bs U}_k - {\bs U}_\text{cm}).
 \end{align*}
+To derive an equation for the evolution of angular momentum over time, differentiate the above formula.  We obtain two terms, one of which vanishes:
+\begin{align*}
+({\bs U}_k - {\bs U}_\text{cm}) \times ({\bs U}_k - {\bs U}_\text{cm}) = 0,
+\end{align*}
+and we have 
+\begin{align*}
+\frac{d{\bs L}}{dt} = \sum_k ({\bs X}_k - {\bs X}_\text{cm}) \times \left(M_k \frac{d{\bs U}_k}{dt} - M_k\frac{d {\bs U}_\text{cm}}{dt}\right) =  \sum_k ({\bs X}_k - {\bs X}_\text{cm}) \times M_k \frac{d{\bs U}_k}{dt}. 
+\end{align*}
+The second equality from above comes again from \eqref{eq:rand1}.  Equation \eqref{eq:mot4} can be substituted into the above equation.  After some further manipulation, we arrive the formulas:
 \begin{align*}
 \frac{d {\bs L}}{dt} &= {\bs \tau} = \sum_k ({\bs X}_k - {\bs X}_\text{cm}) \times {\bs F}_k \\
 {\bs L} &= \sum_k M_k ({\bs X}_k - {\bs X}_\text{cm}) \times ({\bs U}_k - {\bs U}_\text{cm}).
