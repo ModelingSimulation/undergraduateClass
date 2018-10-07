@@ -26,6 +26,7 @@
 \usepackage[margin=2.5cm]{geometry}
 \begin{document}
 \title{Mathematical modeling in science, engineering, and economics}
+\author{Charlie Peskin and Charles Puelz}
 \maketitle
 
 \tableofcontents
@@ -311,11 +312,24 @@ Consider the reversible reaction
 A + B &\rightarrow AB \\
 AB &\rightarrow A + B
 \end{align*}
-in a well--mixed solution.  The number of occurences of the forward reaction {\em per unit time per unit volume} is proportional to the concentration of $A$ and $B$, denoted $[A]$ and $[B]$ respectively.  The proportionality constant is called $k_1$ and is also referred to as the {\em rate constant} for this reaction.  The rate constant for the reverse reaction is $k_2$ and the concentration of $AB$ is similarly denoted $[AB]$.  Then,
+in a well--mixed solution.  The number of occurences of the forward reaction {\em per unit time per unit volume} is proportional to the concentrations of $A$ and $B$, denoted $[A]$ and $[B]$ respectively.  The proportionality constant is called $k_1$ and is also referred to as the {\em rate constant} for this reaction.  The rate constant for the reverse reaction is $k_2$ and the concentration of $AB$ is similarly denoted $[AB]$.  Then,
 \begin{align*}
 k_1[A][B] &= \text{number of occurences of the forward reation, per unit time per unit volume} \\
-k_2[AB] &=  \text{number of occurences of the reverse reation, per unit time per unit volume} \\
+k_2[AB] &=  \text{number of occurences of the reverse reation, per unit time per unit volume}
 \end{align*}  
+The units of concentration we use are {\em number of molecules per unit volume}.  The number of molecules is a {\em pure} number, which means it is unitless.  Chemists use number of moles per unit volume, with Avagadro's numbers as a conversion factor between number of moles and number of molecules. 
 
+The definitions above implicitly provide units for the rate constants $k_1$ and $k_2$.  For the forward reaction, the units are:
+\begin{align*}
+k_1 \left(\frac{1}{\text{volume}} \right)^2 \sim \frac{1}{\text{volume} \cdot \text{time}},
+\end{align*}
+implying
+\begin{align*}
+k_1 \sim \frac{\text{volume}}{\text{time}}.
+\end{align*}
+A similar argument shows that the units of $k_2$ are
+\begin{align*}
+k_2 \sim \frac{1}{\text{time}}.
+\end{align*}
 
 \end{document}
