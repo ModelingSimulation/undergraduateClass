@@ -232,7 +232,11 @@ Now, we make the assumption that our body is rigid.  Then, the motion of each ma
 \label{eq:rigmot3}
 {\bs U}_k(t) = {\bs U}_\text{cm}(t) + {\bs \Omega}(t) \times ({\bs X}_k(t) - {\bs X}_\text{cm}(t)).
 \end{align}  
-From this formula we can derive a relationship between ${\bs L}$ and ${\bs \Omega}$,
+From this formula we can derive a relationship between ${\bs L}$ and ${\bs \Omega}$.  Substituting \eqref{eq:rigmot3} into the definition for the angular momentum, we obtain:
+\begin{align*}
+{\bs L} &= \sum_k M_k ({\bs X}_k - {\bs X}_\text{cm}) \times ({\bs \Omega} \times ({\bs X}_k - {\bs X}_\text{cm})).
+\end{align*}
+An application of the vector identity ${\bs a} \times ({\bs b} \times {\bs c}) = {\bs b}({\bs a}\cdot {\bs c}) -  {\bs c}({\bs a}\cdot {\bs b})$ gives us the following formula,
 \begin{align}
 \label{eq:rigmot4}
 {\bs L}(t) = {\bs I}(t) {\bs \Omega}(t),
@@ -301,6 +305,17 @@ Show that ${\bs R}({\bs \Omega}, \Delta t)$ is an orthogonal matrix.
 
 \newpage
 \section{Chemical kinetics}
+
+Consider the reversible reaction
+\begin{align*}
+A + B &\rightarrow AB \\
+AB &\rightarrow A + B
+\end{align*}
+in a well--mixed solution.  The number of occurences of the forward reaction {\em per unit time per unit volume} is proportional to the concentration of $A$ and $B$, denoted $[A]$ and $[B]$ respectively.  The proportionality constant is called $k_1$ and is also referred to as the {\em rate constant} for this reaction.  The rate constant for the reverse reaction is $k_2$ and the concentration of $AB$ is similarly denoted $[AB]$.  Then,
+\begin{align*}
+k_1[A][B] &= \text{number of occurences of the forward reation, per unit time per unit volume} \\
+k_2[AB] &=  \text{number of occurences of the reverse reation, per unit time per unit volume} \\
+\end{align*}  
 
 
 \end{document}
