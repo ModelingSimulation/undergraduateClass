@@ -108,7 +108,7 @@ H(X_1,X_2,X_3) = H({\bs X}) = 0.
 \end{align*}
 To model some sort of force that the ground exerts on each mass, we need to know when we are above and below it.  For a given mass at location ${\bs X}$ in $\mathbb{R}^2$ or $\mathbb{R}^3$, we say it is {\em above the ground} if $H({\bs X}) > 0$ and {\em below the ground} if $H({\bs X}) < 0$.  The force that the ground exerts on this mass will only be active when the mass is below the ground.
 
-As a modeling choice, we make the magnitude of this force proportional to the distance from the mass to the ground.  Set the mass' location below the ground to be ${\bs X}^0$, and take ${\bs X}$ to be some point on the ground, i.e. $H({\bs X}) = 0$.  Let's take a Taylor expansion:
+As a modeling choice, we make the magnitude of this force proportional to the distance from the mass to the ground.  Set the mass location below the ground to be ${\bs X}^0$, and take ${\bs X}$ to be some point on the ground, i.e. $H({\bs X}) = 0$.  Let us take a Taylor expansion:
 \begin{align}
 \label{eq:te1}
 H({\bs X}) - H({\bs X}^0) = \nabla H({\bs X}^0) \cdot ({\bs X} - {\bs X}^0) + O(\|{\bs X} - {\bs X}^0\|^2) 
@@ -119,13 +119,13 @@ A formula to find the distance from a mass at ${\bs X}^0$ to the ground would be
 \text{minimize } &\|{\bs X} - {\bs X}^0\| \\
 \text{such that } &H({\bs X}) = 0.
 \end{align*}
-We can equivalently minimize the squared distance $\|{\bs X} - {\bs X}^0\|^2$, which is sometime easier to work with, so let's solve:
+We can equivalently minimize the squared distance $\|{\bs X} - {\bs X}^0\|^2$, which is sometimes easier to work with, so let us consider:
 \begin{align*}
 \text{minimize } &\|{\bs X} - {\bs X}^0\|^2 \\
 \text{such that } &H({\bs X}) = 0.
 \end{align*}
 
-To solve this optimization problem, it is useful to express the vector ${\bs X} - {\bs X}^0$ in a new basis containing ${\bs V}_1 = \nabla H({\bs X}^0) / \|  \nabla H({\bs X}^0) \|$.  Let's assume we are in $\mathbb{R}^3$ and we pick ${\bs V}_2$ and ${\bs V}_3$ so that $\{ {\bs V}_1,  {\bs V}_2,  {\bs V}_3 \}$ forms an orthonormal basis.  Then we can write:
+To solve this optimization problem, it is useful to express the vector ${\bs X} - {\bs X}^0$ in a new basis containing ${\bs V}_1 = \nabla H({\bs X}^0) / \|  \nabla H({\bs X}^0) \|$.  Assume we are in $\mathbb{R}^3$ and pick ${\bs V}_2$ and ${\bs V}_3$ so that $\{ {\bs V}_1,  {\bs V}_2,  {\bs V}_3 \}$ forms an orthonormal basis.  Then we can write:
 \begin{align*}
 {\bs X} - {\bs X}^0 = \sum_{i=1}^3 \, \Big(({\bs X} - {\bs X}^0) \cdot {\bs V}_i \Big) \, {\bs V}_i, 
 \end{align*} 
@@ -160,7 +160,7 @@ We now wish to describe the effect of friction from the ground.  For this we nee
 \begin{align*}
 \mathbb{I} - {\bs V} {\bs V}^T,
 \end{align*}
-where $\mathbb{I}$ is the identity matrix.  Note that we already have the normal vector at point ${\bs X}$ to the ground, given by  $H({\bs X}) / \|\nabla H({\bs X})\|$.  So, the projection onto the tangent plane to the ground at point ${\bs X}$ is given by the matrix
+where $\mathbb{I}$ is the identity matrix.  Note that we already have the normal vector at point ${\bs X}$ to the ground, given by  $\nabla H({\bs X}) / \|\nabla H({\bs X})\|$.  So, the projection onto the tangent plane to the ground at point ${\bs X}$ is given by the matrix
 \begin{align*}
 \mathbb{I} -\frac{\nabla H({\bs X})}{\|\nabla H({\bs X})\|}\frac{\nabla H({\bs X})^T}{\|\nabla H({\bs X})\|},
 \end{align*}
@@ -307,6 +307,8 @@ Show that ${\bs R}({\bs \Omega}, \Delta t)$ is an orthogonal matrix.
 \newpage
 \section{Chemical kinetics}
 
+\subsection{Law of mass action}
+
 Consider the reversible reaction
 \begin{align*}
 A + B &\rightarrow AB \\
@@ -327,9 +329,22 @@ implying
 \begin{align*}
 k_1 \sim \frac{\text{volume}}{\text{time}}.
 \end{align*}
-A similar argument shows that the units of $k_2$ are
+A similar argument shows that the units of $k_2$ are $\text{time}^{-1}$.  We can write a system of differential equations for the concentrations:
 \begin{align*}
-k_2 \sim \frac{1}{\text{time}}.
+&\frac{d}{dt}[A] = -k_1 [A][B] + k_2 [AB] \\
+&\frac{d}{dt}[B] = -k_1 [A][B] + k_2 [AB] \\
+&\frac{d}{dt}[AB] = k_1 [A][B] - k_2 [AB]. 
 \end{align*}
+Inspection of these equations show that $[A^*] = [A] + [AB]$ and $[B^*] = [B] + [AB]$ are special quantities that do not change in time.  You can see this by adding either the first or second equation above with the last equation to obtain
+\begin{align*}
+\frac{d}{dt}\left( [A] + [AB] \right) = \frac{d}{dt}\left( [B] + [AB] \right) = 0. 
+\end{align*}
+The quantity $[A^*]$ can be interpreted as the total concentration of $[A]$ in the system, in either form $A$ or $AB$.  A similar interpretation follows for $[B^*]$.
+
+There are some constraints on these concentrations.  In particular, concentrations are always nonnegative.  This implies $[AB] \leq [A^*]$ and $[AB] \leq [B^*]$, which is summarized as 
+\begin{align*}
+[AB] \leq \min([A^*],[B^*]).
+\end{align*}
+In words, this inequality says that the concentration of $AB$ is restricted by ``total'' concentration of $A$ or $B$ in the system, whichever is smaller. 
 
 \end{document}
