@@ -14,6 +14,7 @@ U = zeros(num_nodes, NDIM);
 M = ones(num_nodes,1);
 M(1:num_nodes) = 5e3*ones(num_nodes,1); % mass of each node
 G = 50000; % magnitude of the gravitational force
+Sd = 10; % drag force constant
 
 % set numerical parameters
 dt = 1e-4;
@@ -83,9 +84,10 @@ for t = 1:length(timevec)
     % compute net force and net torque
     net_force = zeros(NDIM,1);
     net_torque = zeros(NDIM,1);
+    drag_force = F_drag(X,Sd,Ucm);
     for l = 1:num_nodes
-    	net_force = net_force + F_gravity(l,:)';
-        net_torque = net_torque + cross(Xtwiddle(l,:)', F_gravity(l,:)');
+    	net_force = net_force + F_gravity(l,:)' + drag_force(l,:)';
+        net_torque = net_torque + cross(Xtwiddle(l,:)', F_gravity(l,:)' + drag_force(l,:)');
     end	
 
     % update the position and velocity for the center of mass
@@ -100,6 +102,7 @@ for t = 1:length(timevec)
 
     % store the position of centroid
     centroid_position(t,:) = Xcm';
+    centroid_velocity(t,:) = Ucm';
 
     % plot the current position of the ball
     figure(2);
@@ -120,9 +123,22 @@ figure(3); hold on
 plot(timevec, centroid_position,'linewidth',2)
 legend('x','y','z')
 
-% function which defines the force on the ground, existing on the plane X_3 = 0
-function Fg = F_ground(X,Sg)
-    Fg = zeros(size(X));
-    Fg(:,3) = (X(:,3) < 0).*(-Sg*X(:,3));
+figure(4); hold on
+plot(timevec, centroid_velocity,'linewidth',2)
+legend('x','y','z')
+
+% function which defines a drag force
+function Fd = F_drag(X,Sd,Ucm)
+    nodes = [1:3];
+    Fd = zeros(size(X));
+    [foo ind] = min(X);
+    othernodes = find(nodes ~= ind(3));
+    Xmin = X(ind(3),:);
+    X1 = X(othernodes(1),:);
+    X2 = X(othernodes(2),:); 
+    costheta1 = X1(1)/norm(X1);
+    costheta2 = X2(1)/norm(X2);
+    Fd(othernodes(1),3) = Sd*(norm(Ucm)^2)*abs(costheta1);
+    Fd(othernodes(2),3) = Sd*(norm(Ucm)^2)*abs(costheta2);	
 end
 
