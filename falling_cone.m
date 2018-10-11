@@ -2,6 +2,10 @@ close all; clear all; clc;
 % building a flat bouncing ball that is rigid
 NDIM = 3;
 
+% set angle for cone edges
+THETA = 85; % in degrees
+THETA_PERT = 3.0;
+
 % initialize arrays
 num_nodes = 3;
 num_links = 3;
@@ -13,18 +17,24 @@ U = zeros(num_nodes, NDIM);
 % set physical parameters
 M = ones(num_nodes,1);
 M(1:num_nodes) = 5e3*ones(num_nodes,1); % mass of each node
-G = 50000; % magnitude of the gravitational force
-Sd = 10; % drag force constant
+G = 5e3; % magnitude of the gravitational force
+Sd = 1e9; % drag force constant
 
 % set numerical parameters
 dt = 1e-4;
-end_time = 500*dt; %1e0;
+end_time = 2e-1;
 timevec = 0:dt:end_time;
 
 % set positions of nodes around the circumference of the ball
 X(1,:) = [0,0,0];
-X(2,:) = [1,0,1];
-X(3,:) = [-1,0,1];
+X(2,:) = [cos(THETA*pi/180),0,sin(THETA*pi/180)];
+X(3,:) = [-cos(THETA*pi/180),0,sin(THETA*pi/180)];
+
+% perturb initial configuration
+PERT = [cos(THETA_PERT*pi/180) 0 -sin(THETA_PERT*pi/180);
+        0                      0 0
+	sin(THETA_PERT*pi/180) 0 cos(THETA_PERT*pi/180);];
+X = (PERT*X')';
 
 % build structure by creating links
 jj(1) = 1; kk(1) = 2;
@@ -59,6 +69,8 @@ L = zeros(NDIM,1);
 
 % here is the timestep loop
 centroid_position = zeros(length(timevec), NDIM);
+centroid_velocity = zeros(length(timevec), NDIM);
+bottom_position = zeros(length(timevec), NDIM);
 for t = 1:length(timevec)
 
     % this just displays the current simulation time in the matlab window
@@ -101,6 +113,7 @@ for t = 1:length(timevec)
     X = Xtwiddle + Xcm';
 
     % store the position of centroid
+    bottom_position(t,:) = X(1,:);	
     centroid_position(t,:) = Xcm';
     centroid_velocity(t,:) = Ucm';
 
@@ -113,7 +126,7 @@ for t = 1:length(timevec)
     pause(0.0001)
 
     % stop simulation if it blows up.
-    if(norm(X)> 1e2)
+    if(norm(X)> 1e10)
       break
     end
 
@@ -125,6 +138,10 @@ legend('x','y','z')
 
 figure(4); hold on
 plot(timevec, centroid_velocity,'linewidth',2)
+legend('x','y','z')
+
+figure(5); hold on
+plot(timevec, bottom_position(:,1),'linewidth',2)
 legend('x','y','z')
 
 % function which defines a drag force
