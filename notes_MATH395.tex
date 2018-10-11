@@ -342,9 +342,50 @@ Inspection of these equations show that $[A^*] = [A] + [AB]$ and $[B^*] = [B] + 
 The quantity $[A^*]$ can be interpreted as the total concentration of $[A]$ in the system, in either form $A$ or $AB$.  A similar interpretation follows for $[B^*]$.
 
 There are some constraints on these concentrations.  In particular, concentrations are always nonnegative.  This implies $[AB] \leq [A^*]$ and $[AB] \leq [B^*]$, which is summarized as 
-\begin{align*}
+\begin{align}
+\label{eq:ma1}
 [AB] \leq \min([A^*],[B^*]).
+\end{align}
+In words, this inequality says that the concentration of $AB$ is restricted by ``total'' concentration of $A$ or $B$ in the system, whichever is smaller.  The equations can be reduced to one equation with one unknown, namely $[AB]$:
+\begin{align}
+\label{eq:ma2}
+\frac{d}{dt}[AB] = k_1 \left( ([A^*] - [AB])([B^*] - [AB]) - K[AB] \right),
+\end{align}
+with $K = \frac{k_1}{k_2}$.  Note that $K$ has units of concentration.  Let us look for a steady state of the equation, i.e. a value of $[AB]$ so that $\frac{d}{dt}[AB] = 0$:
+\begin{align*}
+0 = k_1 \left( ([A^*] - [AB])([B^*] - [AB]) - K[AB] \right).
 \end{align*}
-In words, this inequality says that the concentration of $AB$ is restricted by ``total'' concentration of $A$ or $B$ in the system, whichever is smaller. 
+We can gain some insight by separately plotting the line defined by $K[AB]$ and the parabola defined by $([A^*] - [AB])([B^*] - [AB])$.  While this line and parabola intersect in two places, only one of the intersections is a ``permissible'' value for the steady state, which satisfies the inequality \eqref{eq:ma1}.  We call this steady state solution $[AB]_\infty$.  By looking at the graph of the parabola and line, you can show:
+\begin{align*}
+\begin{cases}
+\frac{d}{dt}[AB] > 0 & \text{if } 0 \leq [AB] < [AB]_\infty \\
+\frac{d}{dt}[AB] < 0 & \text{if } [AB]_\infty < [AB] < \min([A^*],[B^*]).
+\end{cases}
+\end{align*}
+This means that $[AB]_\infty$ is a {\em stable} steady state, in the sense that if $[AB]$ is smaller than $[AB]_\infty$, its derivative in time in positive so it will tend towards its steady state.  On the other hand, if $[AB]$ is greater than $[AB]_\infty$, its time derivative is negative and it will still tend toward the steady state. 
+
+We can solve the ordinary differential equation for $x(t) = [AB](t)$ analytically in this case.  Take $x_1$ and $x_2$ to be solutions to the steady state equation we considered above, where we have now canceled out $k_1$:
+\begin{align*}
+([A^*] - [AB])([B^*] - [AB]) = K[AB].
+\end{align*}
+Let $x_1 = [AB]_\infty$ so that $x_1 < x_2$.  Notice also that:
+\begin{align*}
+0 < x_1 < \min([A^*],[B^*]) < \max([A^*],[B^*]) < x_2.
+\end{align*}
+Using $x$, $x_1$, and $x_2$ we can rewrite \eqref{eq:ma2} as
+\begin{align*}
+\frac{d x}{dt} = k_1 (x_1 - x)(x_2 - x).
+\end{align*}
+Now we use a trick!  Notice that 
+\begin{align*}
+\frac{d}{dt} \left( \frac{x_1 - x}{x_2 - x} \right) = -(x_2 - x_1) k_1  \left( \frac{x_1 - x}{x_2 - x} \right)
+\end{align*}
+by the quotient rule, so the function $(x_1 - x)/(x_2 - x)$ satisfies a linear differential equation which has an exponential as the solution:
+\begin{align*}
+\left( \frac{x_1 - x(t)}{x_2 - x(t)} \right) = \left( \frac{x_1 - x(0)}{x_2 - x(0)} \right) \exp(-(x_2 - x_1)k_1 t).
+\end{align*}
+Since $x_2 > x_1$, this exponential is decaying.  Check to see that as $t \rightarrow \infty$, we have $x(t) \rightarrow [AB]_\infty$. 
+
+\subsection{Microscopic mass action}
 
 \end{document}

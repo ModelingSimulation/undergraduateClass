@@ -3,8 +3,8 @@ close all; clear all; clc;
 NDIM = 3;
 
 % set angle for cone edges
-THETA = 50; % in degrees
-THETA_PERT = 5.0;
+THETA = 60; % in degrees
+THETA_PERT = 0.0;
 
 % initialize arrays
 num_nodes = 3;
@@ -94,10 +94,21 @@ for t = 1:length(timevec)
 	 Xtwiddle = ( P_Omega*(Xtwiddle') + cos(norm(Omega)*dt).*(eye(NDIM) - P_Omega)*(Xtwiddle') + sin(norm(Omega)*dt).*(Omega_cross*(Xtwiddle'))./norm(Omega) )';
     end
 
+    % compute normal vectors to triangle
+    V = X(kk,:) - X(jj,:);
+    unit_V = zeros(size(V));
+    N = zeros(size(V));    
+    for nn = 1:3
+       unit_V(nn,:) = V(nn,:)./norm(V(nn,:));
+       normal = [unit_V(nn,3) -unit_V(nn,1); unit_V(nn,1) unit_V(nn,3)] \ [1; 0];
+       N(nn,1) = normal(1);
+       N(nn,3) = normal(2);
+    end
+
     % compute net force and net torque
     net_force = zeros(NDIM,1);
     net_torque = zeros(NDIM,1);
-    drag_force = F_drag(X,Sd,Ucm);
+    drag_force = F_drag(X,V,N,kk,jj,Sd,Ucm);
     for l = 1:num_nodes
     	net_force = net_force + F_gravity(l,:)' + drag_force(l,:)';
         net_torque = net_torque + cross(Xtwiddle(l,:)', F_gravity(l,:)' + drag_force(l,:)');
@@ -149,18 +160,15 @@ plot(timevec, bottom_position,'linewidth',2)
 legend('x','y','z')
 
 % function which defines a drag force
-function Fd = F_drag(X,Sd,Ucm)
+function Fd = F_drag(X,V,N,kk,jj,Sd,Ucm)
     nodes = [1:3];
     Fd = zeros(size(X));
-    [foo ind] = min(X);
-    othernodes = find(nodes ~= ind(3));
-    Xmin = X(ind(3),:);
-    X1 = X(othernodes(1),:);
-    X2 = X(othernodes(2),:); 
-    costheta1 = X1(1)/norm(X1);
-    costheta2 = X2(1)/norm(X2);
-    Fd(ind(3),3) = Sd*(norm(Ucm)^2)*max([abs(costheta1) abs(costheta2)]);
-    Fd(othernodes(1),3) = Sd*(norm(Ucm)^2)*abs(costheta1);
-    Fd(othernodes(2),3) = Sd*(norm(Ucm)^2)*abs(costheta2);	
+    for l = 1:3 % loop over triangle sides
+    	if(N(l,:)*Ucm > 0)
+            orthographic = norm( (eye(3) - (Ucm*Ucm'./(norm(Ucm)^2)) )*(V(l,:)') );
+            Fd(kk(l),:) = Fd(kk(l),:) - Sd*orthographic.*Ucm';
+            Fd(jj(l),:) = Fd(jj(l),:) - Sd*orthographic.*Ucm';
+	end
+    end
 end
 
