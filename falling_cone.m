@@ -3,7 +3,7 @@ close all; clear all; clc;
 NDIM = 3;
 
 % set angle for cone edges
-THETA = 85; % in degrees
+THETA = 50; % in degrees
 THETA_PERT = 5.0;
 
 % initialize arrays
@@ -47,6 +47,7 @@ x = [X(jj,1) X(kk,1)];
 y = [X(jj,2) X(kk,2)];
 z = [X(jj,3) X(kk,3)];
 plot3(x',y',z','linewidth',4)
+axis equal
 
 % make a gravitational force
 F_gravity = zeros(num_nodes, NDIM);
@@ -125,6 +126,7 @@ for t = 1:length(timevec)
     plot3(x',y',z','linewidth',4)
     view(180,0)
     xlim([-0.7 0.7]);
+    zlim([-10 1]);	
     pause(0.0001)
 
     % stop simulation if it blows up.
@@ -143,7 +145,7 @@ plot(timevec, centroid_velocity,'linewidth',2)
 legend('x','y','z')
 
 figure(5); hold on
-plot(timevec, bottom_position(:,1),'linewidth',2)
+plot(timevec, bottom_position,'linewidth',2)
 legend('x','y','z')
 
 % function which defines a drag force
