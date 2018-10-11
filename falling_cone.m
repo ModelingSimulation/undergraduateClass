@@ -4,7 +4,7 @@ NDIM = 3;
 
 % set angle for cone edges
 THETA = 85; % in degrees
-THETA_PERT = 3.0;
+THETA_PERT = 1.0;
 
 % initialize arrays
 num_nodes = 3;
@@ -18,7 +18,7 @@ U = zeros(num_nodes, NDIM);
 M = ones(num_nodes,1);
 M(1:num_nodes) = 5e3*ones(num_nodes,1); % mass of each node
 G = 5e3; % magnitude of the gravitational force
-Sd = 1e9; % drag force constant
+Sd = 1e6; % drag force constant
 
 % set numerical parameters
 dt = 1e-4;
@@ -155,6 +155,7 @@ function Fd = F_drag(X,Sd,Ucm)
     X2 = X(othernodes(2),:); 
     costheta1 = X1(1)/norm(X1);
     costheta2 = X2(1)/norm(X2);
+    Fd(ind(3),3) = Sd*(norm(Ucm)^2)*max([abs(costheta1) abs(costheta2)]);
     Fd(othernodes(1),3) = Sd*(norm(Ucm)^2)*abs(costheta1);
     Fd(othernodes(2),3) = Sd*(norm(Ucm)^2)*abs(costheta2);	
 end
