@@ -14,6 +14,8 @@ Here, we will post some useful example code and notes.  It is not required for y
 
 -rigid bodies: [rigid_body.m](rigid_body.m)
 
+-falling cone: [falling_cone.m](falling_cone.m)
+
 ### Notes
 
 Here is a link to some [notes](notes_MATH395.pdf) that will be regularly updated.  These are still a work in progress.
@@ -25,6 +27,8 @@ Here are some of Charlie's hand written notes:
 -[Principle of detailed balance](principle_of_detailed_balance.pdf)
 
 -[Equations of motion for a gyrocompass](gyrocompass.pdf)
+
+-[Enzyme kinetics](enzyme_kinetics.pdf)
 
 ## Projects
 
