@@ -24,6 +24,8 @@ Here are some of Charlie's hand written notes:
 
 -[Principle of detailed balance](principle_of_detailed_balance.pdf)
 
+-[Equations of motion for a gyrocompass](gyrocompass.pdf)
+
 ## Projects
 
 Proposals for the first project will be due Friday, October 12, by email at 11:59pm.  Writeups for the first project will be due Friday, November 9, by email at 11:59pm.  We will strive to have your presentations before you turn in your writeups, so you can incorporate any comments you may receive during your presentation.
