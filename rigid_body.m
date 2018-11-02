@@ -3,8 +3,8 @@ close all; clear all; clc;
 NDIM = 3;
 
 % number of nodes around the circumference of the ball
-%n = 30;
-n = 4; 
+n = 30;
+%n = 4; 
 
 % initialize arrays
 num_nodes = n+1;
@@ -63,7 +63,7 @@ plot3(x',y',z','linewidth',4)
 F_gravity = zeros(num_nodes, NDIM);
 F_gravity(:,1) = 0;
 F_gravity(:,2) = 0;
-F_gravity(:,3) = 0; %-G.*M; 
+F_gravity(:,3) = -G.*M; 
 
 % initialize the position of the center of mass
 Xcm = (sum((M.*X))./sum(M))';

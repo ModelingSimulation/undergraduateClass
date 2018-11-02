@@ -3,8 +3,8 @@ close all; clear all; clc;
 NDIM = 3;
 
 % set angle for cone edges
-THETA = 60; % in degrees
-THETA_PERT = 0.0;
+THETA = 10; % in degrees
+THETA_PERT = 1.0;
 
 % initialize arrays
 num_nodes = 3;
@@ -17,8 +17,8 @@ U = zeros(num_nodes, NDIM);
 % set physical parameters
 M = ones(num_nodes,1);
 M(1:num_nodes) = 5e2*ones(num_nodes,1); % mass of each node
-G = 5e3; % magnitude of the gravitational force
-Sd = 1e6; % drag force constant
+G = 1e6; % magnitude of the gravitational force
+Sd = 7e6; % drag force constant
 
 % set numerical parameters
 dt = 1e-4;
@@ -135,9 +135,12 @@ for t = 1:length(timevec)
     y = [X(jj,2) X(kk,2)];
     z = [X(jj,3) X(kk,3)];
     plot3(x',y',z','linewidth',4)
+    hold on
+    plot3(Xcm(1),Xcm(2),Xcm(3),'r.','markersize',20);
+    hold off
     view(180,0)
-    xlim([-0.7 0.7]);
-    zlim([-10 1]);	
+    xlim([-11 11]);
+    zlim([-20 2]);	
     pause(0.0001)
 
     % stop simulation if it blows up.
