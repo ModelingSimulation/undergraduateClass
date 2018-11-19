@@ -34,10 +34,17 @@ Here are some of Charlie's hand written notes:
 
 -[A genetic switch](genetic_switch.pdf)
 
--[Hemeoglobin](hemeoglobin.pdf) and an [old paper](monod_wyman_changeaux_allosteric.pdf) about it.
+-[Hemoglobin](hemeoglobin.pdf) and an [old paper](monod_wyman_changeaux_allosteric.pdf) about it.
+
+-[Traffic flow](traffic_simulation_notes.pdf)
+
+## Student projects
+
+Here is a [beautiful project](gyroscope_Final_Paper.pdf) from Zeshun Zong and Yifeng Chen and gyroscopes and their applications.  You can find their code in the repo: https://github.com/zeshunzong/A_series_of_experiments_based_on_gyroscope.
 
 ## Projects
 
 Proposals for the first project will be due Friday, October 12, by email at 11:59pm.  Writeups for the first project will be due Friday, November 9, by email at 11:59pm.  We will strive to have your presentations before you turn in your writeups, so you can incorporate any comments you may receive during your presentation.
 
 Proposals for the second project will be due Friday, November 2, by email at 11:59pm.  Presentations and writeups for the second project should be done by the end of the exam period.
+
