@@ -38,9 +38,9 @@ Here are some of Charlie's hand written notes:
 
 -[Traffic flow](traffic_simulation_notes.pdf)
 
-## Student projects
+### Student projects
 
-Here is a [beautiful project](gyroscope_Final_Paper.pdf) from Zeshun Zong and Yifeng Chen and gyroscopes and their applications.  You can find their code in the repo: https://github.com/zeshunzong/A_series_of_experiments_based_on_gyroscope.
+Here is a [beautiful project](gyroscope_Final_Paper.pdf) from Zeshun Zong and Yifeng Chen and gyroscopes and their applications.  You can find their code in [this repo](https://github.com/zeshunzong/A_series_of_experiments_based_on_gyroscope).
 
 ## Projects
 
