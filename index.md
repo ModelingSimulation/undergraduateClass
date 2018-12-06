@@ -43,7 +43,6 @@ Here are some of Charlie's hand written notes:
 ### Student projects
 
 Here is a [beautiful project](gyroscope_Final_Paper.pdf) from Zeshun Zong and Yifeng Chen and gyroscopes and their applications.  You can find their code in [this repo](https://github.com/zeshunzong/A_series_of_experiments_based_on_gyroscope).
->>>>>>> f40fa2dadb9ff8b04f12209c27c339da6fa59c38
 
 ## Projects
 
