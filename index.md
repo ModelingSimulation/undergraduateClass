@@ -44,6 +44,8 @@ Here are some of Charlie's hand written notes:
 
 Here is a [beautiful project](gyroscope_Final_Paper.pdf) from Zeshun Zong and Yifeng Chen and gyroscopes and their applications.  You can find their code in [this repo](https://github.com/zeshunzong/A_series_of_experiments_based_on_gyroscope).
 
+A [project](murphy_project.pdf) on 1D blood flow by Murphy Pan 
+
 ## Projects
 
 Proposals for the first project will be due Friday, October 12, by email at 11:59pm.  Writeups for the first project will be due Friday, November 9, by email at 11:59pm.  We will strive to have your presentations before you turn in your writeups, so you can incorporate any comments you may receive during your presentation.
