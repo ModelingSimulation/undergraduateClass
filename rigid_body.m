@@ -3,7 +3,7 @@ close all; clear all; clc;
 NDIM = 3;
 
 % number of nodes around the circumference of the ball
-n = 30;
+n = 10;
 %n = 4; 
 
 % initialize arrays
@@ -18,10 +18,10 @@ U = zeros(num_nodes, NDIM);
 RB = 0.8; % radius of ball
 center = [0, 0, 10.5]; % initial location for ball center
 M = ones(num_nodes,1);
-M(1:n) = 5e3*ones(n,1); % mass of each node
-M(end) = 5e-8; % mass of each node 
+M(1:n) = (5e-1)*ones(n,1); % mass of each node
+%M(end) = 5e-8; % mass of each node 
 G = 50000; % magnitude of the gravitational force
-Sg = 0.5; % strength of the force exerted by the ground
+Sg = 5e8; % strength of the force exerted by the ground
 
 % set numerical parameters
 dt = 1e-4;
@@ -77,10 +77,10 @@ Xtwiddle = X - Xcm';
 
 % initialize the angular velocity
 L = zeros(NDIM,1);
-L = [0; 1e9; 0];
-%for k = 1:num_nodes
-%    L = L + cross(Xtwiddle(k,:),U(k,:))';
-%end	
+%L = [0; 1e9; 0];
+for k = 1:num_nodes
+    L = L + cross(Xtwiddle(k,:),U(k,:))';
+end	
 
 % here is the timestep loop
 centroid_position = zeros(length(timevec), NDIM);
@@ -110,6 +110,7 @@ for t = 1:length(timevec)
     net_force = zeros(NDIM,1);
     net_torque = zeros(NDIM,1);
     ground_force = F_ground(X,Sg);
+    ground_force
     for l = 1:num_nodes
     	net_force = net_force + F_gravity(l,:)' + ground_force(l,:)';
         net_torque = net_torque + cross(Xtwiddle(l,:)', F_gravity(l,:)' + ground_force(l,:)');
