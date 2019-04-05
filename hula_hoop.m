@@ -24,11 +24,11 @@ M = ones(num_nodes,1);
 M(1:n) = (5e-1)*ones(n,1); % mass of each node
 %M(end) = 5e-8; % mass of each node 
 G = 50000; % magnitude of the gravitational force
-Sc = 5e8; % strength of the force exerted by the ground
+Sc = 1e8; % strength of the force exerted by the ground
 
 % set numerical parameters
 dt = 1e-4;
-end_time = dt; %1e0;
+end_time = 100*dt; %1e0;
 timevec = 0:dt:end_time;
 
 % set positions of nodes around the circumference of the ball
@@ -130,8 +130,8 @@ for t = 1:length(timevec)
     current_center
     viscircles(current_center(1:2)',R_cylinder);
     %sum(abs(cylinder_force))
-    xlim([-3 3])
-    ylim([-1 1])
+    xlim([-5 5])
+    ylim([-5 5])
     zlim([0 12])
     pause(0.0001)
 
@@ -148,9 +148,9 @@ function Fc = F_cylinder(X,Sc,time,cutoff_distance,center_cylinder,R_cylinder)
     th = 0.1*time;
     current_center = [cos(th) -sin(th) 0; sin(th) cos(th) 0; 0 0 1]*center_cylinder';
     min_dist =  1e9;
-    current_center
+    current_center;
     for (ii = 1:length(X))
-	arr = X(ii,:) - current_center;
+	arr = X(ii,:) - current_center';
 	min_dist = min(min_dist,norm(arr));
         direction = (arr)./norm(arr);
         if(norm(arr) < R_cylinder + cutoff_distance)
