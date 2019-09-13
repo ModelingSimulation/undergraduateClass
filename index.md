@@ -4,7 +4,7 @@ Here, we will post some useful example code and notes.  It is not required for y
 
 ### Code
 
--Harmonic Oscillator: [harmonic_oscillator.m](harmonic_oscillator.m), [force_spr.m](force_spr.m);
+-Harmonic Oscillator: [harmonic_oscillator_2d.m](harmonic_oscillator_2d.m), [force_spr.m](force_spr.m);
 
 -building some structures: [simple_structure_2d.m](simple_structure_2d.m), [simple_structure_3d.m](simple_structure_3d.m)
 
