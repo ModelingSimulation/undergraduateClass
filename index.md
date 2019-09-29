@@ -12,6 +12,8 @@ Here, we will post some useful example code and notes.  It is not required for y
 
 -2d forward Euler example with a chain of springs: [spring_string.m](spring_string.m)
 
+-Sphere Triangulation Program: [sphere.zip](sphere.zip)
+
 -2d bouncing ball: [bouncing_ball.m](bouncing_ball.m).  Try varying the spring and dashpot parameters to see how this impacts the dynamics.  Be careful, the set of parameters in this file are close to being unstable with forward Euler :-).
 
 -rigid bodies: [rigid_body.m](rigid_body.m)
