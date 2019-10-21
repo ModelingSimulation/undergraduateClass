@@ -10,7 +10,7 @@ Here, we will post some useful example code and notes.  It is not required for y
 
 -building a bicycle: [bicycle.m](bicycle.m)
 
--2d forward Euler example with a chain of springs: [spring_string.m](spring_string_2D.m)
+-2d forward Euler example with a chain of springs: [spring_string_2D.m](spring_string_2D.m)
 
 -Sphere Triangulation Program: [sphere.zip](sphere.zip)
 
