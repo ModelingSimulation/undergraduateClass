@@ -22,6 +22,8 @@ Here, we will post some useful example code and notes.  It is not required for y
 
 -Stochastic Microscopic Mass Action: [micro_mass_action.m](micro_mass_action.m)
 
+-Enzyme Kientics: [enzyme_kinetics.m](enzyme_kinetics), [fast_eq.m](fast_eq.m)
+
 ### Notes
 
 Here is a link to some [notes](notes_MATH395.pdf) that will be regularly updated.  These are still a work in progress.
