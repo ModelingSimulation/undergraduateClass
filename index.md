@@ -24,6 +24,8 @@ Here, we will post some useful example code and notes.  It is not required for y
 
 -Enzyme Kientics: [enzyme_kinetics.m](enzyme_kinetics.m), [fast_eq.m](fast_eq.m)
 
+-Traffic Flow: [traffic.m](traffic.m), [vel_car.m](vel_car.m),[a_car.m](a_car.m)
+
 ### Notes
 
 Here is a link to some [notes](notes_MATH395.pdf) that will be regularly updated.  These are still a work in progress.
